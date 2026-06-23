@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<meta name="theme-color" content="#ED2B2E" />
+<meta name="description" content="What We Do — Designs & Words AI. Branding, AI video, social, media buying, print and creative design — everything under one roof." />
+<title>What We Do — Designs & Words AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { margin:0; box-sizing:border-box; }
+  :root {
+    --font-display:'Montserrat', system-ui, sans-serif;
+    --font-body:'Montserrat', system-ui, sans-serif;
+    --fs-display: clamp(2.5rem, 6vw, 5rem);
+    --fs-h1:      clamp(2rem, 4.4vw, 3.25rem);
+    --fs-h2:      clamp(1.4rem, 3vw, 2.125rem);
+    --fs-h3:      clamp(1.2rem, 2vw, 1.5rem);
+    --fs-lead:    clamp(1.05rem, 1.6vw, 1.375rem);
+    --fs-body:    1rem;
+    --fs-small:   0.8125rem;
+    --fs-eyebrow: 0.6875rem;
+    --fw-light:300; --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+    --lh-tight:1.04; --lh-snug:1.16; --lh-normal:1.5; --lh-relaxed:1.7;
+    --ls-tight:-0.02em; --ls-normal:0; --ls-wide:0.04em; --ls-eyebrow:0.30em;
+    --c-ink:#0A0A0A; --c-paper:#FFFFFF; --c-chalk:#F4F3F0; --c-accent:#ED2B2E;
+    --c-muted:rgba(244,243,240,0.66); --c-muted-ink:#6b6b6b;
+  }
+  html { scroll-behavior:smooth; scroll-snap-type:y proximity; }
+  body { font-family:var(--font-body); color:var(--c-ink); background:#FFFFFF; -webkit-font-smoothing:antialiased; }
+  ::selection { background:var(--c-accent); color:#fff; }
+
+  .t-display { font-family:var(--font-display); font-weight:var(--fw-bold);    font-size:var(--fs-display); line-height:var(--lh-tight); letter-spacing:var(--ls-tight); }
+  .t-h1      { font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:var(--fs-h1);     line-height:var(--lh-snug); letter-spacing:var(--ls-tight); }
+  .t-h2      { font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:var(--fs-h2);     line-height:var(--lh-snug); letter-spacing:var(--ls-tight); }
+  .t-lead    { font-family:var(--font-body);    font-weight:var(--fw-regular);  font-size:var(--fs-lead);   line-height:var(--lh-relaxed); }
+  .t-body    { font-family:var(--font-body);    font-weight:var(--fw-regular);  font-size:var(--fs-body);   line-height:var(--lh-relaxed); }
+  .t-small   { font-family:var(--font-body);    font-weight:var(--fw-medium);   font-size:var(--fs-small);  line-height:var(--lh-normal); letter-spacing:var(--ls-wide); }
+  .t-eyebrow { font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:var(--fs-eyebrow);line-height:1.4; letter-spacing:var(--ls-eyebrow); text-transform:uppercase; }
+  .t-accent  { color:var(--c-accent); }
+
+  /* red "What We Do" intro */
+  .whatwedo { background:var(--c-accent); color:#fff; min-height:100vh; padding:100px 28px; gap:22px;
+    scroll-snap-align:start;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .whatwedo .t-eyebrow { color:rgba(255,255,255,0.85); }
+  .whatwedo h2 { color:#fff; }
+  .whatwedo p { color:rgba(255,255,255,0.92); max-width:620px; }
+
+  /* image-1 editorial service layout (sticky-stacked) */
+  .svc { position:sticky; top:0; min-height:100vh; background:#fff; border-top:1px solid #ececec;
+    scroll-snap-align:start;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:clamp(40px,6vh,80px) clamp(24px,5vw,80px); }
+  .svc > * { width:100%; max-width:1280px; margin-left:auto; margin-right:auto; }
+  .svc-head { display:flex; justify-content:space-between; align-items:center; }
+  .svc-eyebrow { color:#9a9a9a; }
+  .svc-num { color:#cdcdcd; font-family:var(--font-display); font-weight:500; font-size:15px; letter-spacing:0.1em; }
+  .svc-title { margin:14px 0 42px; }
+  .svc-body { display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(28px,5vw,64px); align-items:start; }
+  .svc-img { width:100%; aspect-ratio:16/10; position:relative; overflow:hidden;
+    background:radial-gradient(120% 120% at 30% 20%, #3a3a3a, #111 70%); }
+  .svc-img::after { content:""; position:absolute; inset:0;
+    background:radial-gradient(closest-side at 60% 45%, rgba(237,43,46,0.28), transparent 70%); }
+  .svc-desc { color:#6b6b6b; max-width:34ch; margin-top:18px; }
+  .svc-list { list-style:none; display:flex; flex-direction:column; gap:16px; }
+  .svc-list li { display:flex; gap:14px; cursor:pointer; align-items:flex-start; }
+  .svc-plus { color:var(--c-accent); font-weight:700; line-height:1.5; width:14px; flex:none; text-align:center; transition:transform .3s ease; }
+  .svc-list li.open .svc-plus { transform:rotate(45deg); }
+  .svc-item { display:block; font-weight:600; color:#0A0A0A; }
+  .svc-item-desc { display:block; color:#7a7a7a; font-size:13px; line-height:1.55; max-width:52ch;
+    max-height:0; opacity:0; overflow:hidden; margin-top:0;
+    transition:max-height .45s cubic-bezier(.16,1,.3,1), opacity .35s ease, margin-top .35s ease; }
+  .svc-list li.open .svc-item-desc { max-height:220px; opacity:1; margin-top:4px; }
+
+  /* text reveal on the section's children */
+  .svc-head, .svc-title, .svc-left, .svc-list li {
+    opacity:0; transform:translateY(30px); filter:blur(6px);
+    transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), filter .9s ease; }
+  .svc.in .svc-head, .svc.in .svc-title, .svc.in .svc-left, .svc.in .svc-list li {
+    opacity:1; transform:none; filter:blur(0); }
+  .svc.in .svc-head  { transition-delay:.04s }
+  .svc.in .svc-title { transition-delay:.12s }
+  .svc.in .svc-left  { transition-delay:.20s }
+  .svc.in .svc-list li:nth-child(1){ transition-delay:.26s } .svc.in .svc-list li:nth-child(2){ transition-delay:.32s }
+  .svc.in .svc-list li:nth-child(3){ transition-delay:.38s } .svc.in .svc-list li:nth-child(4){ transition-delay:.44s }
+  .svc.in .svc-list li:nth-child(5){ transition-delay:.50s } .svc.in .svc-list li:nth-child(6){ transition-delay:.56s }
+  .svc.in .svc-list li:nth-child(7){ transition-delay:.62s }
+
+  .rev { opacity:0; transform:translateY(28px); filter:blur(6px);
+    transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1), filter 1s ease; }
+  .rev.in { opacity:1; transform:none; filter:blur(0); }
+
+  @media (max-width:900px){ .svc-body { grid-template-columns:1fr; } }
+  @media (prefers-reduced-motion: reduce){
+    .svc-head, .svc-title, .svc-left, .svc-list li, .rev { opacity:1 !important; transform:none !important; filter:none !important; } }
+</style>
+</head>
+<body>
+
+<section class="whatwedo">
+  <div class="t-eyebrow rev">What We Do</div>
+  <h2 class="t-display rev">Everything your brand needs <span class="t-accent">— under one roof.</span></h2>
+  <p class="t-small rev">From AI-driven video and social content to branding, media buying, printing and design — we combine creativity, technology, and strategy to help businesses connect with the right audience and scale.</p>
+</section>
+
+<section class="svc">
+  <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Video</span><span class="svc-num">/01</span></div>
+  <h2 class="t-display svc-title">AI Video Creation</h2>
+  <div class="svc-body">
+    <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Creating engaging videos powered by creativity and AI.</p></div>
+    <ul class="svc-list">
+      <li><span class="svc-plus">+</span><div><span class="svc-item">AI Promotional Videos</span><span class="svc-item-desc">Attention-grabbing videos that showcase your business, products, and services for digital campaigns and brand awareness.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Product Showcase Videos</span><span class="svc-item-desc">Present product features and benefits with visually engaging videos designed to increase interest and conversions.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Social Media Reels &amp; Shorts</span><span class="svc-item-desc">Short-form vertical videos optimized for Instagram, Facebook, YouTube Shorts, and other platforms.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Explainer Videos</span><span class="svc-item-desc">Turn complex ideas into simple, engaging visual stories that help customers understand your services.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Ad Creatives for Campaigns</span><span class="svc-item-desc">High-performing video creatives designed specifically for paid advertising campaigns.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Motion Graphics</span><span class="svc-item-desc">Animated text, graphics, and visual effects that make content more dynamic and engaging.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Video Editing &amp; Optimization</span><span class="svc-item-desc">Professional editing, transitions, subtitles, and optimization for different platforms.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="svc">
+  <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Social</span><span class="svc-num">/02</span></div>
+  <h2 class="t-display svc-title">Social Media Content</h2>
+  <div class="svc-body">
+    <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Content designed to increase reach and engagement.</p></div>
+    <ul class="svc-list">
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Social Media Post Designs</span><span class="svc-item-desc">Creative visuals designed to reflect your brand identity and attract audience attention.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Reels &amp; Short-Form Content</span><span class="svc-item-desc">High-engagement content tailored for fast-moving social media platforms.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Caption Writing</span><span class="svc-item-desc">Compelling captions that improve communication and encourage audience interaction.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Content Calendars</span><span class="svc-item-desc">Monthly content planning to maintain consistency and organized posting.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Creative Campaign Concepts</span><span class="svc-item-desc">Unique campaign ideas aligned with your business goals.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Story Designs</span><span class="svc-item-desc">Visually engaging story content for announcements, promotions, and engagement.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Platform-Specific Strategy</span><span class="svc-item-desc">Customized content approaches for Instagram, Facebook, LinkedIn, YouTube, and more.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="svc">
+  <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Brand</span><span class="svc-num">/03</span></div>
+  <h2 class="t-display svc-title">Branding &amp; Identity</h2>
+  <div class="svc-body">
+    <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Building a strong and memorable brand presence.</p></div>
+    <ul class="svc-list">
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Logo Design</span><span class="svc-item-desc">Unique logo concepts that reflect your business values and identity.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Brand Identity Systems</span><span class="svc-item-desc">Developing colors, typography, visual styles, and brand elements.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Brand Guidelines</span><span class="svc-item-desc">Creating a structured guide to maintain consistent branding.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Packaging Design</span><span class="svc-item-desc">Creative packaging solutions that enhance product presentation.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Business Cards &amp; Stationery</span><span class="svc-item-desc">Professional business materials that strengthen brand identity.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Brand Messaging</span><span class="svc-item-desc">Defining how your brand communicates with customers.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Visual Communication Strategy</span><span class="svc-item-desc">Creating a consistent visual language across all platforms.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="svc">
+  <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Media</span><span class="svc-num">/04</span></div>
+  <h2 class="t-display svc-title">Media Buying</h2>
+  <div class="svc-body">
+    <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Data-driven advertising to reach the right audience.</p></div>
+    <ul class="svc-list">
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Meta Ads (Facebook &amp; Instagram)</span><span class="svc-item-desc">Targeted campaigns designed to generate leads and increase visibility.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Google Ads Campaigns</span><span class="svc-item-desc">Search, display, and video advertising to reach potential customers.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Campaign Setup &amp; Management</span><span class="svc-item-desc">Complete campaign planning and execution.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Audience Targeting</span><span class="svc-item-desc">Identifying and targeting the right audience segments.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Retargeting Campaigns</span><span class="svc-item-desc">Reconnect with potential customers who have already interacted with your business.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Performance Tracking</span><span class="svc-item-desc">Monitor campaign performance using real-time data.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Ad Optimization &amp; Reporting</span><span class="svc-item-desc">Improve campaign efficiency with continuous adjustments and insights.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="svc">
+  <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Print</span><span class="svc-num">/05</span></div>
+  <h2 class="t-display svc-title">Printing Solutions</h2>
+  <div class="svc-body">
+    <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">High-quality print solutions for online and offline marketing.</p></div>
+    <ul class="svc-list">
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Brochures &amp; Flyers</span><span class="svc-item-desc">Marketing materials designed for promotion and information sharing.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Banners &amp; Signage</span><span class="svc-item-desc">Large-format printing solutions for events and business promotion.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Packaging Materials</span><span class="svc-item-desc">Custom printed packaging that strengthens brand presentation.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Business Cards</span><span class="svc-item-desc">Professional cards designed for networking and business communication.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Catalogs</span><span class="svc-item-desc">Organized product and service presentation materials.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Promotional Merchandise</span><span class="svc-item-desc">Customized branded items for marketing activities.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Custom Print Requirements</span><span class="svc-item-desc">Printing solutions tailored to specific business needs.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="svc">
+  <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Design</span><span class="svc-num">/06</span></div>
+  <h2 class="t-display svc-title">Creative Design Solutions</h2>
+  <div class="svc-body">
+    <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Designs that strengthen your business image.</p></div>
+    <ul class="svc-list">
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Marketing Creatives</span><span class="svc-item-desc">Designs for promotional campaigns and advertisements.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Website Graphics</span><span class="svc-item-desc">Creative visuals for websites and digital platforms.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Ad Banners</span><span class="svc-item-desc">High-quality banner designs optimized for campaigns.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Presentation Designs</span><span class="svc-item-desc">Professional presentations that communicate ideas effectively.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Infographics</span><span class="svc-item-desc">Visually structured content for easier information delivery.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Product Creatives</span><span class="svc-item-desc">Creative visuals that enhance product appeal.</span></div></li>
+      <li><span class="svc-plus">+</span><div><span class="svc-item">Custom Design Requirements</span><span class="svc-item-desc">Personalized design solutions for unique business needs.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  // reveal sections on scroll
+  var rio = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
+  }, { threshold: 0.16, rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.rev, .svc').forEach(function (el) { rio.observe(el); });
+
+  // expandable service items
+  document.addEventListener('click', function (e) {
+    var li = e.target.closest('.svc-list li');
+    if (li) li.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

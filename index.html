@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<meta name="theme-color" content="#0A0A0A" />
+<title>D&W — Silk Grains</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root { color-scheme: dark; }
+  * { margin:0; box-sizing:border-box; }
+
+  /* ============================================================
+     D&W TYPOGRAPHY DESIGN SYSTEM  (use these tokens + .t-* classes site-wide)
+     ============================================================ */
+  :root {
+    /* families */
+    --font-display:'Montserrat', system-ui, sans-serif;
+    --font-body:'Montserrat', system-ui, sans-serif;
+    /* fluid type scale */
+    --fs-display: clamp(2.5rem, 6vw, 5rem);       /* 40 → 80  hero */
+    --fs-h1:      clamp(2rem, 4.4vw, 3.25rem);    /* 32 → 52  */
+    --fs-h2:      clamp(1.4rem, 3vw, 2.125rem);   /* 22 → 34  */
+    --fs-h3:      clamp(1.2rem, 2vw, 1.5rem);     /* 19 → 24  */
+    --fs-lead:    clamp(1.05rem, 1.6vw, 1.375rem);/* 17 → 22  */
+    --fs-body:    1rem;                           /* 16       */
+    --fs-small:   0.8125rem;                      /* 13       */
+    --fs-eyebrow: 0.6875rem;                      /* 11       */
+    /* weights */
+    --fw-light:300; --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
+    /* line-heights */
+    --lh-tight:1.04; --lh-snug:1.16; --lh-normal:1.5; --lh-relaxed:1.7;
+    /* tracking */
+    --ls-tight:-0.02em; --ls-normal:0; --ls-wide:0.04em; --ls-eyebrow:0.30em;
+    /* color tokens */
+    --c-ink:#0A0A0A; --c-paper:#FFFFFF; --c-chalk:#F4F3F0; --c-accent:#ED2B2E;
+    --c-muted:rgba(244,243,240,0.66); --c-muted-ink:#6b6b6b;
+  }
+  .t-display { font-family:var(--font-display); font-weight:var(--fw-bold);   font-size:var(--fs-display); line-height:var(--lh-tight); letter-spacing:var(--ls-tight); }
+  .t-h1      { font-family:var(--font-display); font-weight:var(--fw-semibold);font-size:var(--fs-h1);     line-height:var(--lh-snug);  letter-spacing:var(--ls-tight); }
+  .t-h2      { font-family:var(--font-display); font-weight:var(--fw-semibold);font-size:var(--fs-h2);     line-height:var(--lh-snug);  letter-spacing:var(--ls-tight); }
+  .t-h3      { font-family:var(--font-display); font-weight:var(--fw-medium); font-size:var(--fs-h3);      line-height:var(--lh-snug);  letter-spacing:var(--ls-normal); }
+  .t-lead    { font-family:var(--font-body);    font-weight:var(--fw-regular);font-size:var(--fs-lead);    line-height:var(--lh-relaxed);letter-spacing:var(--ls-normal); }
+  .t-body    { font-family:var(--font-body);    font-weight:var(--fw-regular);font-size:var(--fs-body);    line-height:var(--lh-relaxed);letter-spacing:var(--ls-normal); }
+  .t-small   { font-family:var(--font-body);    font-weight:var(--fw-medium); font-size:var(--fs-small);   line-height:var(--lh-normal); letter-spacing:var(--ls-wide); }
+  .t-eyebrow { font-family:var(--font-display); font-weight:var(--fw-semibold);font-size:var(--fs-eyebrow); line-height:1.4; letter-spacing:var(--ls-eyebrow); text-transform:uppercase; }
+  .t-accent  { color:var(--c-accent); }
+
+  html { scroll-behavior:auto; }
+  html,body { background:#0A0A0A; }
+  body { font-family:var(--font-body); color:var(--c-chalk); }
+  body { height:600vh; }
+  #stage { position:fixed; inset:0; overflow:hidden; background:#0A0A0A; }
+  #page { position:fixed; left:0; right:0; top:72px; bottom:0; color:#F4F3F0;
+    z-index:10; transform:translateY(100%); will-change:transform;
+    background:rgba(255,255,255,0.07);
+    -webkit-backdrop-filter:blur(26px) saturate(1.3); backdrop-filter:blur(26px) saturate(1.3);
+    border-top:1px solid rgba(255,255,255,0.18); box-shadow:0 -30px 80px rgba(0,0,0,0.35);
+    overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  #page .inner { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:100%; max-width:820px; padding:0 28px; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:20px; }
+  #page .inner .sub  { color:var(--c-chalk); }
+  #page .inner .body { color:var(--c-muted); max-width:640px; }
+  /* two stacked panes: dark (glass phase) <-> light (white phase) */
+  .pane-dark  { transition:opacity .5s ease; }
+  .pane-light { position:absolute; inset:0; padding:0 28px; text-align:center; gap:20px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .5s ease; }
+  body.light .pane-dark  { opacity:0; pointer-events:none; }
+  body.light .pane-light { opacity:1; pointer-events:auto; }
+
+  /* hero image — first content section; zooms + fades as it scrolls into "What We Do" */
+  .hero-wrap { position:relative; height:320vh; }   /* extra scroll room for the zoom + forward travel */
+  .hero-content { position:sticky; top:0; height:100vh; overflow:hidden; background:#000; }
+  .hero-content .hero-img { position:absolute; left:0; top:-15%; width:100%; height:130%;
+    object-fit:cover; display:block; will-change:transform; transform-origin:center; }
+  .hero-content .hero-half { position:absolute; left:0; right:0; height:50.2%; z-index:3; background:var(--c-accent); opacity:0; pointer-events:none; will-change:transform,opacity; }
+  .hero-content .hero-half.top { top:0; }
+  .hero-content .hero-half.bottom { bottom:0; }
+  .hero-content .hero-wwd { position:absolute; inset:0; z-index:2; background:#0A0A0A; color:#fff; opacity:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:18px; padding:0 28px; }
+  .hero-content .hero-wwd .t-eyebrow { color:rgba(255,255,255,0.85); }
+  .hero-content .hero-wwd h2 { color:#fff; }
+  .hero-overlay { position:absolute; inset:0; z-index:2; padding:clamp(28px,5vw,64px);
+    display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start; gap:14px;
+    text-align:left; color:#fff;
+    background:linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.12) 45%, rgba(0,0,0,0) 72%); }
+  .hero-overlay .t-eyebrow { color:#fff; opacity:.8; }
+  .hero-overlay h2 { color:#fff; max-width:16ch; }
+  .hero-overlay p  { color:rgba(255,255,255,0.82); max-width:48ch; }
+  .ho { opacity:1; }   /* no reveal animation on the image section */
+  .pane-light .lr { opacity:0; transform:translateY(46px) scale(0.95); filter:blur(9px);
+    transition:opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1), filter 1.1s ease; }
+  body.light .pane-light .lr { opacity:1; transform:none; filter:blur(0); }
+  body.light .pane-light h1.lr { transition-delay:.15s }
+  body.light .pane-light p.lr  { transition-delay:.42s }
+  body.light .pane-light .p-light { color:#5a5a5a; max-width:680px; }
+  #navline { position:fixed; left:0; right:0; top:71px; height:1px; background:rgba(255,255,255,0.10); z-index:11; }
+  #bg, #gr { position:absolute; inset:0; display:block; width:100vw; height:100vh; }
+  #grain { position:absolute; inset:0; pointer-events:none; z-index:4; opacity:0.16; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:170px 170px; }
+  #hint {
+    position:fixed; left:0; right:0; bottom:34px; text-align:center; z-index:20;
+    font-family:'Montserrat',sans-serif; font-weight:500; letter-spacing:0.28em;
+    font-size:11px; color:rgba(244,243,240,0.45); transition:opacity .4s ease;
+  }
+  /* thin grid overlay (very subtle, faded at the edges) */
+  #grid { position:fixed; inset:0; pointer-events:none; z-index:3; opacity:0.6;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(circle at 50% 44%, #000 26%, transparent 76%);
+    mask-image:radial-gradient(circle at 50% 44%, #000 26%, transparent 76%); }
+
+  /* word + block reveal — dynamic (triggered when #page gets .show) */
+  #page .wm { display:inline-block; overflow:hidden; vertical-align:bottom; padding-bottom:0.1em; }
+  #page .wm > span { display:inline-block; transform:translateY(135%) rotate(5deg);
+    transition:transform 1.1s cubic-bezier(.16,1,.3,1); }
+  #page.show .wm > span { transform:none; }
+  #page .heading .wm:nth-child(1) > span { transition-delay:.06s }
+  #page .heading .wm:nth-child(2) > span { transition-delay:.20s }
+  #page .heading .wm:nth-child(3) > span { transition-delay:.34s }
+  #page .heading .wm:nth-child(4) > span { transition-delay:.50s }
+  #page .reveal-up { opacity:0; transform:translateY(48px) scale(0.95); filter:blur(9px);
+    transition:opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1), filter 1.1s ease; }
+  #page.show .reveal-up { opacity:1; transform:none; filter:blur(0); }
+  #page.show .sub  { transition-delay:.64s }
+  #page.show .body { transition-delay:.82s }
+
+  /* top nav bar — transparent (dark phase) -> white with dark logo (light phase) */
+  #navbar { position:fixed; top:0; left:0; right:0; height:72px; z-index:25;
+    display:flex; align-items:center; justify-content:center; background:transparent;
+    border-bottom:1px solid transparent; transition:background .6s ease, border-color .6s ease; }
+  #navlogo { height:46px; width:auto; opacity:0; transition:opacity .6s ease; }
+  body.light #navbar { background:#FFFFFF; border-bottom-color:#ececec; }
+  body.light #navlogo { opacity:1; }
+  body.light #navline { opacity:0; }
+
+  /* bottom on/off SWITCH — auto-on in the light phase, also clickable */
+  #toggle { position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:31;
+    width:64px; height:30px; border-radius:99px; border:1px solid rgba(255,255,255,0.2);
+    background:rgba(20,20,20,0.55); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+    padding:3px; display:flex; align-items:center; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .5s ease, background .35s ease, border-color .35s ease; }
+  #toggle.vis { opacity:1; pointer-events:auto; }
+  #toggle .knob { width:22px; height:22px; border-radius:50%; background:#F4F3F0;
+    transition:transform .4s cubic-bezier(.16,1,.3,1), background .35s ease; }
+  body.light #toggle { background:rgba(237,43,46,0.92); border-color:rgba(237,43,46,1); }
+  body.light #toggle .knob { transform:translateX(34px); background:#fff; }
+
+  /* light-theme flip of the panel + grid */
+  #page { transition:background-color .6s ease, color .6s ease, -webkit-backdrop-filter .6s ease, backdrop-filter .6s ease, border-color .6s ease; }
+  body.light #page { background:#FFFFFF; color:#0A0A0A; -webkit-backdrop-filter:none; backdrop-filter:none; border-top-color:#ececec; box-shadow:none; }
+  body.light #page .sub  { color:#0A0A0A; }
+  body.light #page .body { color:#5a5a5a; }
+  #grid { transition:opacity .6s ease; }
+  body.light #grid { opacity:0; }
+
+
+  /* ===== release: cinematic fades, content scrolls ===== */
+  #cine { position:relative; z-index:40; pointer-events:none; }   /* above #content visually, but click-through */
+  .intro-spacer { height:500vh; }
+  #content { position:relative; z-index:50; background:#FFFFFF; color:#0A0A0A; }  /* covers the cinematic — no fade */
+
+  .intro-white { background:#fff; color:#0A0A0A; min-height:100vh; scroll-snap-align:start;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    gap:20px; padding:80px 28px; }
+  .intro-white .p-introw { color:#5a5a5a; max-width:680px; }
+
+  /* red "What We Do" intro */
+  .whatwedo { background:var(--c-accent); color:#fff; min-height:100vh; padding:100px 28px; gap:22px;
+    scroll-snap-align:start;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .whatwedo .t-eyebrow { color:rgba(255,255,255,0.85); }
+  .whatwedo h2 { color:#fff; }
+  .whatwedo p { color:rgba(255,255,255,0.92); max-width:620px; }
+
+  /* image-1 editorial service layout */
+  .svc { position:sticky; top:0; min-height:100vh; background:#fff; color:#0A0A0A; border-top:1px solid #ececec;
+    scroll-snap-align:start;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:clamp(40px,6vh,80px) clamp(24px,5vw,80px); }
+  .svc > * { width:100%; max-width:1280px; margin-left:auto; margin-right:auto; }
+  .svc-head { display:flex; justify-content:space-between; align-items:center; }
+  .svc-eyebrow { display:none; }
+  .svc-num { color:#cdcdcd; font-family:var(--font-display); font-weight:500; font-size:15px; letter-spacing:0.1em; }
+  .svc-title { margin:14px 0 42px; }
+  .svc-body { display:grid; grid-template-columns:1.4fr 1fr; gap:clamp(28px,5vw,64px); align-items:start; }
+  .svc-img { width:100%; aspect-ratio:16/10; position:relative; overflow:hidden;
+    background:radial-gradient(120% 120% at 30% 20%, #3a3a3a, #111 70%); }
+  .svc-img::after { content:""; position:absolute; inset:0;
+    background:radial-gradient(closest-side at 60% 45%, rgba(237,43,46,0.28), transparent 70%); }
+  .svc-desc { color:#6b6b6b; margin:0; flex:1; align-self:center; }
+  .svc-left { align-self:start; display:flex; gap:20px; align-items:center; }
+  .svc-left .svc-img { width:66%; height:66vh; max-height:600px; aspect-ratio:auto; flex:none; }
+  .svc-list { list-style:none; display:flex; flex-direction:column; gap:16px; }
+  .svc-list li { display:flex; gap:14px; cursor:pointer; align-items:flex-start; }
+  .svc-plus { color:var(--c-accent); font-weight:700; line-height:1.5; width:14px; flex:none; text-align:center; transition:transform .3s ease; }
+  .svc-list li.open .svc-plus { transform:rotate(45deg); }
+  .svc-item { display:block; font-weight:600; color:#0A0A0A; }
+  .svc-item-desc { display:block; color:#7a7a7a; font-size:13px; line-height:1.55; max-width:52ch;
+    max-height:0; opacity:0; overflow:hidden; margin-top:0;
+    transition:max-height .45s cubic-bezier(.16,1,.3,1), opacity .35s ease, margin-top .35s ease; }
+  .svc-list li.open .svc-item-desc { max-height:220px; opacity:1; margin-top:4px; }
+  /* text reveal on the section's children (section itself stays sticky) */
+  .svc-head, .svc-title, .svc-left, .svc-list li {
+    opacity:0; transform:translateY(30px); filter:blur(6px);
+    transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), filter .9s ease; }
+  .svc.in .svc-head, .svc.in .svc-title, .svc.in .svc-left, .svc.in .svc-list li {
+    opacity:1; transform:none; filter:blur(0); }
+  .svc.in .svc-head  { transition-delay:.04s }
+  .svc.in .svc-title { transition-delay:.12s }
+  .svc.in .svc-left  { transition-delay:.20s }
+  .svc.in .svc-list li:nth-child(1){ transition-delay:.26s }
+  .svc.in .svc-list li:nth-child(2){ transition-delay:.32s }
+  .svc.in .svc-list li:nth-child(3){ transition-delay:.38s }
+  .svc.in .svc-list li:nth-child(4){ transition-delay:.44s }
+  .svc.in .svc-list li:nth-child(5){ transition-delay:.50s }
+  .svc.in .svc-list li:nth-child(6){ transition-delay:.56s }
+  .svc.in .svc-list li:nth-child(7){ transition-delay:.62s }
+  .rev { opacity:0; transform:translateY(42px); filter:blur(6px);
+    transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1), filter 1s ease; }
+  .rev.in { opacity:1; transform:none; filter:blur(0); }
+  @media (max-width:900px){ .svc-body { grid-template-columns:1fr; } .svc-left { position:static; } }
+
+  @media (prefers-reduced-motion: reduce){ #hint{ display:none; }
+    .rev { opacity:1 !important; transform:none !important; filter:none !important; }
+    #page .wm > span, #page .reveal-up, #page .lr, .ho { transform:none !important; opacity:1 !important; filter:none !important; } }
+</style>
+</head>
+<body>
+<div id="cine">
+<div id="stage"><canvas id="bg"></canvas><div id="grain"></div><canvas id="gr"></canvas></div>
+<div id="grid"></div>
+<div id="navline"></div>
+<div id="navbar">
+  <svg id="navlogo" viewBox="345 23 280 650" xmlns="http://www.w3.org/2000/svg" aria-label="Designs & Words">
+    <path fill="#0A0A0A" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/>
+    <path fill="#0A0A0A" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/>
+    <path fill="#ED2B2E" d="M441,566 L528,566 L484,660 Z"/>
+  </svg>
+</div>
+<div id="page">
+  <div class="inner pane-dark">
+    <h1 class="t-display heading">
+      <span class="wm"><span>Designs</span></span> <span class="wm"><span>&amp;</span></span> <span class="wm"><span>Words</span></span> <span class="wm"><span class="t-accent">AI</span></span>
+    </h1>
+    <h2 class="t-h2 sub reveal-up">AI-Powered Creative, Branding &amp; Growth Solutions</h2>
+    <p class="t-small body reveal-up">We help businesses grow through AI-driven content, video creation, social media marketing, branding, media buying, and print solutions — combining creativity, technology, and strategy under one roof.</p>
+  </div>
+  <div class="pane-light">
+    <h1 class="t-h1 lr">Transforming Ideas <span class="t-accent">into Brands</span></h1>
+    <p class="t-small lr p-light">At AI Designs &amp; Words AI, we don't just create designs — we build complete brand experiences. From engaging AI-generated videos and social media content to performance marketing, media buying, printing, and brand identity solutions, we help businesses connect with the right audience and scale effectively.</p>
+  </div>
+</div>
+
+<div id="hint">SCROLL TO ASSEMBLE ↓</div>
+<button id="toggle" aria-label="Light mode" role="switch" aria-checked="false"><span class="knob"></span></button>
+</div><!-- /#cine -->
+
+<div class="intro-spacer"></div>
+
+<main id="content">
+  <div class="hero-wrap">
+    <section class="hero-content">
+      <img class="hero-img" src="hero.jpg" alt="Human and AI, face to face" />
+      <div class="hero-overlay">
+        <div class="t-eyebrow ho">Human × Machine</div>
+        <h2 class="t-h1 ho">Where human creativity meets <span class="t-accent">AI</span>.</h2>
+        <p class="t-small ho">AI-accelerated, human-crafted — the intelligence behind every brand we build.</p>
+      </div>
+      <div class="hero-wwd">
+        <div class="t-eyebrow">What We Do</div>
+        <h2 class="t-display">Everything your brand<br>needs <span style="opacity:.7">— under one roof.</span></h2>
+      </div>
+      <div class="hero-half top"></div>
+      <div class="hero-half bottom"></div>
+    </section>
+  </div>
+
+  <section class="svc">
+    <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Video</span><span class="svc-num">/01</span></div>
+    <h2 class="t-display svc-title">AI Video Creation</h2>
+    <div class="svc-body">
+      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Creating engaging videos powered by creativity and AI.</p></div>
+      <ul class="svc-list">
+        <li><span class="svc-plus">+</span><div><span class="svc-item">AI Promotional Videos</span><span class="svc-item-desc">Attention-grabbing videos that showcase your business, products, and services for digital campaigns and brand awareness.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Product Showcase Videos</span><span class="svc-item-desc">Present product features and benefits with visually engaging videos designed to increase interest and conversions.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Social Media Reels &amp; Shorts</span><span class="svc-item-desc">Short-form vertical videos optimized for Instagram, Facebook, YouTube Shorts, and other platforms.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Explainer Videos</span><span class="svc-item-desc">Turn complex ideas into simple, engaging visual stories that help customers understand your services.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Ad Creatives for Campaigns</span><span class="svc-item-desc">High-performing video creatives designed specifically for paid advertising campaigns.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Motion Graphics</span><span class="svc-item-desc">Animated text, graphics, and visual effects that make content more dynamic and engaging.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Video Editing &amp; Optimization</span><span class="svc-item-desc">Professional editing, transitions, subtitles, and optimization for different platforms.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="svc">
+    <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Social</span><span class="svc-num">/02</span></div>
+    <h2 class="t-display svc-title">Social Media Content</h2>
+    <div class="svc-body">
+      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Content designed to increase reach and engagement.</p></div>
+      <ul class="svc-list">
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Social Media Post Designs</span><span class="svc-item-desc">Creative visuals designed to reflect your brand identity and attract audience attention.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Reels &amp; Short-Form Content</span><span class="svc-item-desc">High-engagement content tailored for fast-moving social media platforms.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Caption Writing</span><span class="svc-item-desc">Compelling captions that improve communication and encourage audience interaction.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Content Calendars</span><span class="svc-item-desc">Monthly content planning to maintain consistency and organized posting.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Creative Campaign Concepts</span><span class="svc-item-desc">Unique campaign ideas aligned with your business goals.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Story Designs</span><span class="svc-item-desc">Visually engaging story content for announcements, promotions, and engagement.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Platform-Specific Strategy</span><span class="svc-item-desc">Customized content approaches for Instagram, Facebook, LinkedIn, YouTube, and more.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="svc">
+    <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Brand</span><span class="svc-num">/03</span></div>
+    <h2 class="t-display svc-title">Branding &amp; Identity</h2>
+    <div class="svc-body">
+      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Building a strong and memorable brand presence.</p></div>
+      <ul class="svc-list">
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Logo Design</span><span class="svc-item-desc">Unique logo concepts that reflect your business values and identity.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Brand Identity Systems</span><span class="svc-item-desc">Developing colors, typography, visual styles, and brand elements.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Brand Guidelines</span><span class="svc-item-desc">Creating a structured guide to maintain consistent branding.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Packaging Design</span><span class="svc-item-desc">Creative packaging solutions that enhance product presentation.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Business Cards &amp; Stationery</span><span class="svc-item-desc">Professional business materials that strengthen brand identity.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Brand Messaging</span><span class="svc-item-desc">Defining how your brand communicates with customers.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Visual Communication Strategy</span><span class="svc-item-desc">Creating a consistent visual language across all platforms.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="svc">
+    <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Media</span><span class="svc-num">/04</span></div>
+    <h2 class="t-display svc-title">Media Buying</h2>
+    <div class="svc-body">
+      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Data-driven advertising to reach the right audience.</p></div>
+      <ul class="svc-list">
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Meta Ads (Facebook &amp; Instagram)</span><span class="svc-item-desc">Targeted campaigns designed to generate leads and increase visibility.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Google Ads Campaigns</span><span class="svc-item-desc">Search, display, and video advertising to reach potential customers.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Campaign Setup &amp; Management</span><span class="svc-item-desc">Complete campaign planning and execution.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Audience Targeting</span><span class="svc-item-desc">Identifying and targeting the right audience segments.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Retargeting Campaigns</span><span class="svc-item-desc">Reconnect with potential customers who have already interacted with your business.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Performance Tracking</span><span class="svc-item-desc">Monitor campaign performance using real-time data.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Ad Optimization &amp; Reporting</span><span class="svc-item-desc">Improve campaign efficiency with continuous adjustments and insights.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="svc">
+    <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Print</span><span class="svc-num">/05</span></div>
+    <h2 class="t-display svc-title">Printing Solutions</h2>
+    <div class="svc-body">
+      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">High-quality print solutions for online and offline marketing.</p></div>
+      <ul class="svc-list">
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Brochures &amp; Flyers</span><span class="svc-item-desc">Marketing materials designed for promotion and information sharing.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Banners &amp; Signage</span><span class="svc-item-desc">Large-format printing solutions for events and business promotion.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Packaging Materials</span><span class="svc-item-desc">Custom printed packaging that strengthens brand presentation.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Business Cards</span><span class="svc-item-desc">Professional cards designed for networking and business communication.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Catalogs</span><span class="svc-item-desc">Organized product and service presentation materials.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Promotional Merchandise</span><span class="svc-item-desc">Customized branded items for marketing activities.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Custom Print Requirements</span><span class="svc-item-desc">Printing solutions tailored to specific business needs.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="svc">
+    <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Design</span><span class="svc-num">/06</span></div>
+    <h2 class="t-display svc-title">Creative Design Solutions</h2>
+    <div class="svc-body">
+      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Designs that strengthen your business image.</p></div>
+      <ul class="svc-list">
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Marketing Creatives</span><span class="svc-item-desc">Designs for promotional campaigns and advertisements.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Website Graphics</span><span class="svc-item-desc">Creative visuals for websites and digital platforms.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Ad Banners</span><span class="svc-item-desc">High-quality banner designs optimized for campaigns.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Presentation Designs</span><span class="svc-item-desc">Professional presentations that communicate ideas effectively.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Infographics</span><span class="svc-item-desc">Visually structured content for easier information delivery.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Product Creatives</span><span class="svc-item-desc">Creative visuals that enhance product appeal.</span></div></li>
+        <li><span class="svc-plus">+</span><div><span class="svc-item">Custom Design Requirements</span><span class="svc-item-desc">Personalized design solutions for unique business needs.</span></div></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var canvas = document.getElementById('gr'), ctx = canvas.getContext('2d');
+  var bg = document.getElementById('bg'), bgx = bg.getContext('2d');
+  var hint = document.getElementById('hint'), page = document.getElementById('page'), toggle = document.getElementById('toggle');
+  var heroContent = document.querySelector('.hero-content'), heroImg = heroContent.querySelector('.hero-img');
+  var heroWrap = document.querySelector('.hero-wrap'), redTop = document.querySelector('.hero-half.top'), redBot = document.querySelector('.hero-half.bottom'), heroWwd = document.querySelector('.hero-wwd'), heroOverlay = document.querySelector('.hero-overlay');
+  var cine = document.getElementById('cine');
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var STEP = 1.5;
+  var W, H, buckets = [], cx, cy, rx, ry, navS = 0.14, navCX = 40, navCY = 36, bgI = 1;
+  var pT = 0, pS = 0, mx = -9999, my = -9999, panelShown = false, lightShown = false;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // appearance buckets — logo colors only: white (body) + red (nib)
+  var BODY = ['rgba(244,243,240,0.12)','rgba(244,243,240,0.24)','rgba(255,255,255,0.40)',
+              'rgba(230,230,228,0.14)','rgba(244,243,240,0.30)','rgba(214,214,212,0.20)',
+              'rgba(200,200,198,0.16)','rgba(255,255,255,0.55)'];
+  var RED  = ['rgba(237,43,46,0.62)','rgba(213,37,40,0.8)','rgba(255,86,88,0.55)','rgba(237,43,46,0.92)'];
+  var PAL = BODY.concat(RED), SPLIT = BODY.length;
+
+  var BODYP = new Path2D('M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z'
+                       + 'M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z');
+  var NIBP  = new Path2D('M441,566 L528,566 L484,660 Z');
+
+  function ease(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+  function smooth(a, b, x){ var t = Math.min(1, Math.max(0, (x-a)/(b-a))); return t*t*(3-2*t); }
+  function seed(g){ g.lx = Math.random()*W; g.ly = Math.random()*H; }   // anywhere on screen
+
+  function build() {
+    W = innerWidth; H = innerHeight;
+    canvas.width = W*DPR; canvas.height = H*DPR;
+    canvas.style.width = W+'px'; canvas.style.height = H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    bg.width = W*DPR; bg.height = H*DPR;
+    bg.style.width = W+'px'; bg.style.height = H+'px';
+    bgx.setTransform(DPR,0,0,DPR,0,0);
+    cx = W/2; cy = H*0.46; rx = W*0.24; ry = H*0.32;
+
+    var artH = 650, targetH = Math.min(H*0.62, W*1.25), s = targetH/artH, drawW = 280*s;
+    var left = Math.round((W-drawW)/2), top = Math.round((H-targetH)/2 - H*0.045);
+    // phase-2 nav target: shrink the logo to ~46px tall, parked top-CENTER
+    navS = 46 / targetH; navCX = W/2; navCY = 36;
+
+    var off = document.createElement('canvas'); off.width = W; off.height = H;
+    var o = off.getContext('2d');
+    o.save(); o.translate(left, top); o.scale(s, s); o.translate(-345, -23);
+    o.fillStyle = '#ffffff'; o.fill(BODYP);
+    o.fillStyle = '#ED2B2E'; o.fill(NIBP);
+    o.restore();
+    var img = o.getImageData(0, 0, W, H).data;
+
+    buckets = PAL.map(function(){ return []; });
+    for (var gy = top; gy < top+targetH; gy += STEP) {
+      for (var gx = left; gx < left+drawW; gx += STEP) {
+        var ix = ((gy|0)*W + (gx|0))*4;
+        if (img[ix+3] < 110) continue;
+        var isRed = img[ix] > 150 && img[ix+1] < 120;
+        var ci = isRed ? (SPLIT + ((Math.random()*RED.length)|0)) : ((Math.random()*SPLIT)|0);
+        var g = {
+          tx: gx + (Math.random()-0.5)*STEP*0.5, ty: gy + (Math.random()-0.5)*STEP*0.5,
+          r: 0.45 + Math.random()*0.7, d: Math.random()*0.5, ph: Math.random()*6.283,
+          life: Math.random()*220, lx: 0, ly: 0, ox: 0, oy: 0
+        };
+        seed(g);
+        buckets[ci].push(g);
+      }
+    }
+  }
+
+  // auto-morphing red gradient background (drifting glows in logo red)
+  function addBlob(x, y, r, a) {
+    a *= bgI;                                                   // fades out entering phase 2
+    var g = bgx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0,    'rgba(255,78,22,' + a + ')');          // hot orange core
+    g.addColorStop(0.5,  'rgba(237,43,46,' + (a*0.5) + ')');    // logo red
+    g.addColorStop(1,    'rgba(237,43,46,0)');
+    bgx.fillStyle = g; bgx.fillRect(0, 0, W, H);
+  }
+  function drawBg(T) {
+    bgx.fillStyle = '#0A0A0A'; bgx.fillRect(0, 0, W, H);
+    bgx.globalCompositeOperation = 'lighter';
+    // glows roam the whole screen on slow independent paths -> the red drifts & morphs by itself
+    addBlob(W*(0.5 + 0.42*Math.sin(T*0.100)),       H*(0.5 + 0.42*Math.cos(T*0.075)),       H*0.60, 0.52);
+    addBlob(W*(0.5 + 0.46*Math.cos(T*0.063 + 1.5)), H*(0.5 + 0.40*Math.sin(T*0.090 + 2.0)), H*0.50, 0.34);
+    addBlob(W*(0.5 + 0.40*Math.sin(T*0.045 + 3.0)), H*(0.5 + 0.46*Math.cos(T*0.055 + 4.0)), H*0.42, 0.24);
+    bgx.globalCompositeOperation = 'source-over';
+  }
+
+  function readScroll() {
+    var intro = 5 * innerHeight;                          // cinematic plays over the intro spacer (500vh)
+    pT = reduce ? 1 : Math.min(1, Math.max(0, scrollY / intro));
+  }
+
+  function setLight(on) {
+    document.body.classList.toggle('light', on);
+    toggle.setAttribute('aria-checked', on ? 'true' : 'false');
+  }
+
+
+  // curl-noise flow field (divergence-free) — produces swirling silk filaments
+  function flow(x, y, T, out) {
+    var A = 0.0062, B = 0.0066, C = 0.0042;
+    var px = x*A + T*0.20, py = y*B - T*0.16, q = (x + y)*C + T*0.10;
+    // velocity = curl of potential P = sin(px)cos(py) + 0.6 sin(q)
+    var vx = -B*Math.sin(px)*Math.sin(py) + 0.6*C*Math.cos(q);
+    var vy = -A*Math.cos(px)*Math.cos(py) - 0.6*C*Math.cos(q);
+    var m = Math.hypot(vx, vy) || 1;
+    out[0] = vx/m; out[1] = vy/m;
+  }
+
+  var T = 0, span = 1 - 0.5, TAU = 6.283, CR = 240, CR2 = CR*CR, v = [0,0];
+  function frame() {
+    T += 0.016;
+    pS += (pT - pS) * 0.09; if (Math.abs(pT - pS) < 0.0004) pS = pT;
+
+    // two phases: assemble (aP), then white page slides up + logo shrinks into nav (tP)
+    var aP = Math.min(1, pS / 0.34);                      // phase 1: assemble logo
+    var tP = smooth(0.38, 0.56, pS);                      // phase 2: panel up + shrink to nav
+    var wP = smooth(0.62, 0.82, pS);                      // phase 3: flip to light (white)
+    var rP = smooth(0.88, 1.0, pS);                       // phase 4: fade cinematic -> reveal content (hero image)
+    bgI = 1 - tP;                                          // red gradient fades out -> clean dark nav
+    cine.style.display = pS > 0.999 ? 'none' : '';        // content covers it (opaque) — no cross-fade
+    hint.style.opacity = Math.max(0, 1 - pS*5);
+    page.style.transform = 'translateY(' + ((1 - tP) * 100) + '%)';
+    var sp2 = tP > 0.5;                                    // panel is up -> reveal text
+    if (sp2 !== panelShown) {
+      panelShown = sp2;
+      page.classList.toggle('show', sp2);
+    }
+    toggle.classList.toggle('vis', sp2 && rP < 0.4);      // visible through the dark panel + white flip
+
+    // hero image: parallax-drifts while entering, then zooms while pinned
+    if (heroWrap && heroContent && heroImg) {
+      var hr = heroContent.getBoundingClientRect();
+      var wr = heroWrap.getBoundingClientRect();
+      var entry = Math.min(1, Math.max(0, hr.top / innerHeight));               // 1 entering -> 0 pinned
+      var pin = Math.min(1, Math.max(0, -wr.top / ((wr.height - innerHeight) || 1)));
+      heroImg.style.transform = 'translateY(' + (entry * 90) + 'px) scale(' + (1 + pin * 0.6) + ')';
+      // red fills, then splits into two halves that slide apart (top up, bottom down)
+      var redFill = Math.min(1, Math.max(0, (pin - 0.55) / 0.2));
+      var split = Math.min(1, Math.max(0, (pin - 0.78) / 0.22));
+      if (heroOverlay) heroOverlay.style.opacity = 1 - Math.min(1, Math.max(0, (pin - 0.4) / 0.15));   // caption fades before the red
+      if (heroWwd) heroWwd.style.opacity = Math.min(1, Math.max(0, (pin - 0.72) / 0.06));               // stays hidden behind the curtains until the split
+      if (redTop) { redTop.style.opacity = redFill; redTop.style.transform = 'translateY(' + (-split*100) + '%)'; }
+      if (redBot) { redBot.style.opacity = redFill; redBot.style.transform = 'translateY(' + (split*100) + '%)'; }
+    }
+    var wantLight = wP > 0.5;                              // toggle auto-on -> white flip (nav white + dark logo)
+    if (wantLight !== lightShown) { lightShown = wantLight; setLight(wantLight); }
+    var nsT = 1 + (navS - 1)*tP;                           // logo scale as it parks in the nav
+    var ncx = cx + (navCX - cx)*tP, ncy = cy + (navCY - cy)*tP;
+
+    // animated red gradient behind the grains
+    drawBg(T);
+
+    // trail fade -> transparent (so the red shows through); silky while flowing, crisp when formed
+    var fade = 0.11 + smooth(0.45, 1, aP) * 0.84;
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0,0,0,' + fade + ')';
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+
+    for (var ci = 0; ci < buckets.length; ci++) {
+      var b = buckets[ci]; if (!b.length) continue;
+      ctx.fillStyle = PAL[ci];
+      ctx.beginPath();
+      for (var i = 0; i < b.length; i++) {
+        var g = b[i];
+        var e = ease(Math.min(1, Math.max(0, (aP - g.d) / span)));
+
+        // advance the grain along the flow field across the whole screen
+        flow(g.lx, g.ly, T, v);
+        var sp = 1.5 * (1 - e*0.6);
+        g.lx += v[0]*sp;
+        g.ly += v[1]*sp;
+        if (g.lx < 0) g.lx += W; else if (g.lx > W) g.lx -= W;   // wrap edges, no clipping
+        if (g.ly < 0) g.ly += H; else if (g.ly > H) g.ly -= H;
+        // recycle grains only at the very top so the field stays evenly full (no empty patches)
+        if (aP < 0.08 && --g.life < 0) { seed(g); g.life = 70 + Math.random()*180; }
+
+        // scroll gathers grains toward the centre, then blooms into the logo
+        var bx = g.lx + (g.tx - g.lx)*e;
+        var by = g.ly + (g.ty - g.ly)*e;
+        var conv = Math.sin(e*Math.PI) * 0.33;        // funnel through centre mid-way
+        bx += (cx - bx)*conv;
+        by += (cy - by)*conv;
+
+        // cursor repulsion on the FINAL position — works on the formed logo too, then springs back
+        g.ox *= 0.84; g.oy *= 0.84;
+        if (mx > -9000 && tP < 0.45) {                         // disable once the logo parks in the nav
+          var dx = bx + g.ox - mx, dy = by + g.oy - my, d2 = dx*dx + dy*dy;
+          if (d2 < CR2) { var dd = Math.sqrt(d2) || 1, f = (1 - dd/CR) * 7; g.ox += (dx/dd)*f; g.oy += (dy/dd)*f; }
+        }
+        var x = bx + g.ox, y = by + g.oy, r = g.r;
+        if (tP > 0) {                                          // shrink + park the whole logo into the nav
+          x = ncx + (x - cx)*nsT;
+          y = ncy + (y - cy)*nsT;
+          r = g.r * (0.55 + 0.45*nsT);
+        }
+        ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, TAU);
+      }
+      ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  addEventListener('resize', function () { build(); readScroll(); });
+  addEventListener('scroll', readScroll, { passive: true });
+  addEventListener('pointermove', function (e) { mx = e.clientX; my = e.clientY; });
+  addEventListener('pointerleave', function () { mx = my = -9999; });
+  toggle.addEventListener('click', function () { lightShown = !lightShown; setLight(lightShown); });
+  // reveal content sections on scroll
+  var rio = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
+  }, { threshold: 0.16, rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.rev').forEach(function (el) { rio.observe(el); });
+  document.querySelectorAll('.svc').forEach(function (el) { rio.observe(el); });
+  if (heroContent) rio.observe(heroContent);
+  // expandable service items
+  document.getElementById('content').addEventListener('click', function (e) {
+    var li = e.target.closest('.svc-list li');
+    if (li) li.classList.toggle('open');
+  });
+  // first service card (AI Video Creation) -> its detail page
+  (function () {
+    var card = document.querySelector('.svc');
+    if (!card) return;
+    var go = function () { location.href = 'ai-video-creation.html'; };
+    ['.svc-img', '.svc-title'].forEach(function (sel) {
+      var el = card.querySelector(sel);
+      if (el) { el.style.cursor = 'pointer'; el.addEventListener('click', go); }
+    });
+  })();
+  build(); readScroll(); requestAnimationFrame(frame);
+
+  // ---- smooth (inertia) scrolling on desktop; lerps the real scroll position ----
+  (function () {
+    if (reduce) return;
+    if (!matchMedia('(hover:hover) and (pointer:fine)').matches) return;   // wheel only, leave touch native
+    var target = window.scrollY, current = target, running = false;
+    function maxS(){ return document.documentElement.scrollHeight - innerHeight; }
+    function loop(){
+      current += (target - current) * 0.12;
+      if (Math.abs(target - current) < 0.4) { current = target; running = false; }
+      window.scrollTo(0, current);
+      if (running) requestAnimationFrame(loop);
+    }
+    addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var d = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+      target = Math.min(maxS(), Math.max(0, target + d));
+      if (!running) { running = true; requestAnimationFrame(loop); }
+    }, { passive: false });
+    addEventListener('scroll', function () { if (!running) { target = current = window.scrollY; } }, { passive: true });
+    addEventListener('resize', function () { target = Math.min(maxS(), target); });
+  })();
+})();
+</script>
+</body>
+</html>

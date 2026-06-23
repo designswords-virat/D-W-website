@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>D&W — Logo (pixel-traced SVG)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  body { font-family:'Inter',sans-serif; }
+  .wordmark { font-family:'Montserrat',sans-serif; font-weight:400; letter-spacing:0.05em; }
+</style>
+</head>
+<body class="bg-neutral-100 text-neutral-900">
+
+<!-- =================================================================== -->
+<!--  D&W LOGO — traced from artwork pixels (viewBox in artwork space).   -->
+<!--  Ink = currentColor, nib = #ED2B2E.                                  -->
+<!-- =================================================================== -->
+
+<div class="max-w-5xl mx-auto px-6 py-16">
+  <p class="wordmark text-xs text-neutral-500 mb-10 tracking-[0.2em]">DESIGNS &amp; WORDS — PIXEL-TRACED LOGO</p>
+
+  <!-- overlay compare -->
+  <div class="grid sm:grid-cols-2 gap-6 mb-6">
+    <section class="bg-white rounded-2xl border border-neutral-200 p-10 flex flex-col items-center justify-between">
+      <img src="DESIGN & WORDS LOGO.png" alt="Original artwork" class="h-72 w-auto object-contain" />
+      <span class="wordmark text-[10px] tracking-[0.25em] text-neutral-400 mt-5">ORIGINAL PNG</span>
+    </section>
+    <section class="bg-white rounded-2xl border border-neutral-200 p-10 flex flex-col items-center justify-between">
+      <div class="flex flex-col items-center">
+        <svg viewBox="345 23 280 650" class="h-60 w-auto text-neutral-900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Designs & Words">
+          <path fill="currentColor" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/>
+          <path fill="currentColor" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/>
+          <path fill="#ED2B2E" d="M441,566 L528,566 L484,660 Z"/>
+        </svg>
+        <div class="wordmark text-[1.55rem] text-neutral-900 mt-4">DESIGNS &amp; WORDS</div>
+      </div>
+      <span class="wordmark text-[10px] tracking-[0.25em] text-neutral-400 mt-5">PURE SVG (CODE)</span>
+    </section>
+  </div>
+
+  <!-- direct overlay to verify match -->
+  <section class="bg-white rounded-2xl border border-neutral-200 p-10 mb-6">
+    <p class="wordmark text-[10px] tracking-[0.25em] text-neutral-400 mb-6">OVERLAY — SVG (red outline) ON TOP OF PNG</p>
+    <div class="relative w-72 mx-auto">
+      <img src="DESIGN & WORDS LOGO.png" alt="" class="w-full opacity-90" />
+      <svg viewBox="0 0 970 808" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#1e90ff" stroke-width="2">
+        <path d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/>
+        <path d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/>
+        <path d="M441,566 L528,566 L484,660 Z"/>
+      </svg>
+    </div>
+    <p class="text-center text-xs text-neutral-400 mt-4">The blue vector outline should hug the black/red artwork exactly.</p>
+  </section>
+
+  <!-- full lockup -->
+  <section class="mb-6 bg-white rounded-2xl border border-neutral-200 p-14 flex flex-col items-center">
+    <svg viewBox="345 23 280 650" class="h-44 w-auto text-neutral-900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Designs & Words">
+      <path fill="currentColor" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/>
+      <path fill="currentColor" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/>
+      <path fill="#ED2B2E" d="M441,566 L528,566 L484,660 Z"/>
+    </svg>
+    <div class="wordmark text-3xl md:text-5xl text-neutral-900 mt-8">DESIGNS &amp; WORDS</div>
+  </section>
+
+  <!-- variants -->
+  <div class="grid sm:grid-cols-3 gap-6">
+    <section class="bg-neutral-900 rounded-2xl p-10 flex flex-col items-center">
+      <svg viewBox="345 23 280 650" class="h-28 w-auto text-white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="currentColor" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/>
+        <path fill="currentColor" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/>
+        <path fill="#ED2B2E" d="M441,566 L528,566 L484,660 Z"/>
+      </svg>
+      <div class="wordmark text-base text-white mt-4">DESIGNS &amp; WORDS</div>
+    </section>
+    <section class="bg-[#ED2B2E] rounded-2xl p-10 flex flex-col items-center">
+      <svg viewBox="345 23 280 650" class="h-28 w-auto text-white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="currentColor" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/>
+        <path fill="currentColor" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/>
+        <path fill="#0A0A0A" d="M441,566 L528,566 L484,660 Z"/>
+      </svg>
+      <div class="wordmark text-base text-white mt-4">DESIGNS &amp; WORDS</div>
+    </section>
+    <section class="bg-white rounded-2xl border border-neutral-200 p-10 flex items-end justify-center gap-6">
+      <svg viewBox="345 23 280 650" class="h-20 w-auto text-neutral-900" aria-hidden="true"><path fill="currentColor" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/><path fill="currentColor" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/><path fill="#ED2B2E" d="M441,566 L528,566 L484,660 Z"/></svg>
+      <svg viewBox="345 23 280 650" class="h-10 w-auto text-neutral-900" aria-hidden="true"><path fill="currentColor" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/><path fill="currentColor" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/><path fill="#ED2B2E" d="M441,566 L528,566 L484,660 Z"/></svg>
+    </section>
+  </div>
+</div>
+</body>
+</html>
