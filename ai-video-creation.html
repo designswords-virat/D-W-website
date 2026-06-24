@@ -24,36 +24,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="dw.css" />
 <style>
+  /* Design tokens + .t-* utilities live in dw.css (single source of truth) */
+  :root { color-scheme: dark; }
   * { margin:0; box-sizing:border-box; }
-  :root {
-    --font-display:'Montserrat', system-ui, sans-serif;
-    --font-body:'Montserrat', system-ui, sans-serif;
-    --fs-display: clamp(2.6rem, 8vw, 6rem);
-    --fs-h1:      clamp(2rem, 4.4vw, 3.25rem);
-    --fs-h2:      clamp(1.5rem, 3vw, 2.25rem);
-    --fs-h3:      clamp(1.15rem, 1.8vw, 1.4rem);
-    --fs-lead:    clamp(1.05rem, 1.6vw, 1.375rem);
-    --fs-body:    1rem;
-    --fs-small:   0.8125rem;
-    --fs-eyebrow: 0.6875rem;
-    --fw-light:300; --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
-    --lh-tight:1.04; --lh-snug:1.16; --lh-normal:1.5; --lh-relaxed:1.7;
-    --ls-tight:-0.02em; --ls-wide:0.04em; --ls-eyebrow:0.30em;
-    --c-ink:#0A0A0A; --c-paper:#FFFFFF; --c-chalk:#F4F3F0; --c-accent:#ED2B2E;
-    --c-muted:rgba(244,243,240,0.6);
-  }
   html { scroll-behavior:smooth; }
   body { font-family:var(--font-body); background:#0A0A0A; color:var(--c-chalk); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
-  ::selection { background:var(--c-accent); color:#fff; }
   a { color:inherit; text-decoration:none; }
-
-  .t-display { font-family:var(--font-display); font-weight:var(--fw-bold);    font-size:var(--fs-display); line-height:var(--lh-tight); letter-spacing:var(--ls-tight); }
-  .t-h2      { font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:var(--fs-h2); line-height:var(--lh-snug); letter-spacing:var(--ls-tight); }
-  .t-h3      { font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:var(--fs-h3); line-height:1.25; }
-  .t-lead    { font-family:var(--font-body); font-weight:var(--fw-regular); font-size:var(--fs-lead); line-height:var(--lh-relaxed); }
-  .t-small   { font-family:var(--font-body); font-weight:var(--fw-regular); font-size:var(--fs-small); line-height:var(--lh-normal); }
-  .t-eyebrow { font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:var(--fs-eyebrow); letter-spacing:var(--ls-eyebrow); text-transform:uppercase; }
   .accent { color:var(--c-accent); }
   .wrap { max-width:1280px; margin:0 auto; padding:0 clamp(24px,5vw,64px); }
 
