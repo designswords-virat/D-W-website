@@ -175,8 +175,12 @@
   .svc-body { display:grid; grid-template-columns:1.4fr 1fr; gap:clamp(28px,5vw,64px); align-items:start; }
   .svc-img { width:100%; aspect-ratio:16/10; position:relative; overflow:hidden;
     background:radial-gradient(120% 120% at 30% 20%, #3a3a3a, #111 70%); }
-  .svc-img::after { content:""; position:absolute; inset:0;
-    background:radial-gradient(closest-side at 60% 45%, rgba(237,43,46,0.28), transparent 70%); }
+  .svc-img img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .9s cubic-bezier(.16,1,.3,1); }
+  .svc:hover .svc-img img { transform:scale(1.045); }
+  .svc-img::after { content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(closest-side at 60% 45%, rgba(237,43,46,0.18), transparent 72%),
+               linear-gradient(180deg, transparent 55%, rgba(10,10,10,0.35)); }
   .svc-desc { color:#6b6b6b; margin:0 0 40px; max-width:62ch; }
   .svc-left { align-self:start; }
   .svc-left .svc-img { width:100%; height:66vh; max-height:600px; aspect-ratio:auto; }
@@ -271,7 +275,7 @@
     <h2 class="t-h1 svc-title">AI Video Creation</h2>
     <p class="t-small svc-desc">Creating engaging videos powered by creativity and AI.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div></div>
+      <div class="svc-left"><div class="svc-img"><img src="images/svc-video.webp" alt="AI video creation — film production setup" loading="lazy" decoding="async" /></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">AI Promotional Videos</span><span class="svc-item-desc">Attention-grabbing videos that showcase your business, products, and services for digital campaigns and brand awareness.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Product Showcase Videos</span><span class="svc-item-desc">Present product features and benefits with visually engaging videos designed to increase interest and conversions.</span></div></li>
@@ -289,7 +293,7 @@
     <h2 class="t-h1 svc-title">Social Media Content</h2>
     <p class="t-small svc-desc">Content designed to increase reach and engagement.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div></div>
+      <div class="svc-left"><div class="svc-img"><img src="images/svc-social.webp" alt="Social media content on a smartphone" loading="lazy" decoding="async" /></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Social Media Post Designs</span><span class="svc-item-desc">Creative visuals designed to reflect your brand identity and attract audience attention.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Reels &amp; Short-Form Content</span><span class="svc-item-desc">High-engagement content tailored for fast-moving social media platforms.</span></div></li>
@@ -307,7 +311,7 @@
     <h2 class="t-h1 svc-title">Branding &amp; Identity</h2>
     <p class="t-small svc-desc">Building a strong and memorable brand presence.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div></div>
+      <div class="svc-left"><div class="svc-img"><img src="images/svc-branding.webp" alt="Branding and identity design samples" loading="lazy" decoding="async" /></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Logo Design</span><span class="svc-item-desc">Unique logo concepts that reflect your business values and identity.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Brand Identity Systems</span><span class="svc-item-desc">Developing colors, typography, visual styles, and brand elements.</span></div></li>
@@ -325,7 +329,7 @@
     <h2 class="t-h1 svc-title">Media Buying</h2>
     <p class="t-small svc-desc">Data-driven advertising to reach the right audience.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div></div>
+      <div class="svc-left"><div class="svc-img"><img src="images/svc-media.webp" alt="Media buying analytics dashboard" loading="lazy" decoding="async" /></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Meta Ads (Facebook &amp; Instagram)</span><span class="svc-item-desc">Targeted campaigns designed to generate leads and increase visibility.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Google Ads Campaigns</span><span class="svc-item-desc">Search, display, and video advertising to reach potential customers.</span></div></li>
@@ -343,7 +347,7 @@
     <h2 class="t-h1 svc-title">Printing Solutions</h2>
     <p class="t-small svc-desc">High-quality print solutions for online and offline marketing.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div></div>
+      <div class="svc-left"><div class="svc-img"><img src="images/svc-printing.webp" alt="High-quality printing and printed stationery" loading="lazy" decoding="async" /></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Brochures &amp; Flyers</span><span class="svc-item-desc">Marketing materials designed for promotion and information sharing.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Banners &amp; Signage</span><span class="svc-item-desc">Large-format printing solutions for events and business promotion.</span></div></li>
@@ -361,7 +365,7 @@
     <h2 class="t-h1 svc-title">Creative Design Solutions</h2>
     <p class="t-small svc-desc">Designs that strengthen your business image.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div></div>
+      <div class="svc-left"><div class="svc-img"><img src="images/svc-design.webp" alt="Creative design workspace and tools" loading="lazy" decoding="async" /></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Marketing Creatives</span><span class="svc-item-desc">Designs for promotional campaigns and advertisements.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Website Graphics</span><span class="svc-item-desc">Creative visuals for websites and digital platforms.</span></div></li>
