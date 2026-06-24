@@ -77,3 +77,22 @@
 body { font-family:var(--font-body); }
 ::selection { background:var(--c-accent); color:#fff; }
 :focus-visible { outline:2px solid var(--c-accent); outline-offset:3px; }
+
+/* ============================================================
+   SITE FOOTER — shared component, used on every page.
+   ============================================================ */
+.site-footer { position:relative; z-index:50; background:#0f0f0f; color:var(--c-chalk);
+  border-top:1px solid rgba(255,255,255,0.08); padding:clamp(48px,6vh,72px) clamp(24px,5vw,80px) 36px; }
+.site-footer a { text-decoration:none; }
+.foot-inner { max-width:1280px; margin:0 auto; display:flex; flex-wrap:wrap; gap:32px;
+  justify-content:space-between; align-items:flex-start; }
+.foot-brand { max-width:340px; }
+.foot-brand .foot-logo { font-family:var(--font-display); font-weight:var(--fw-bold); letter-spacing:-0.01em; font-size:1.25rem; color:var(--c-chalk); }
+.foot-brand p { color:var(--c-muted); margin-top:10px; font-size:14px; line-height:1.6; }
+.foot-col h4 { font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--c-muted); margin-bottom:14px; font-weight:var(--fw-semibold); }
+.foot-col a { display:flex; align-items:center; gap:9px; color:var(--c-chalk); font-size:14px; margin-bottom:11px;
+  transition:color .3s ease; }
+.foot-col a:hover { color:var(--c-accent); }
+.foot-col a svg { width:16px; height:16px; flex:none; }
+.foot-bottom { max-width:1280px; margin:40px auto 0; padding-top:22px; border-top:1px solid rgba(255,255,255,0.07);
+  display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; color:var(--c-muted); font-size:12.5px; }

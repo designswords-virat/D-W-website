@@ -92,11 +92,6 @@
   @media (prefers-reduced-motion: reduce){
     .svc-head, .svc-title, .svc-left, .svc-list li, .rev { opacity:1 !important; transform:none !important; filter:none !important; } }
 
-  .wwd-footer { background:#0f0f0f; color:var(--c-chalk); padding:48px clamp(24px,5vw,80px) 34px; }
-  .wwd-footer .fi { max-width:1180px; margin:0 auto; display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; align-items:center; }
-  .wwd-footer a { color:var(--c-chalk); transition:color .3s ease; }
-  .wwd-footer a:hover { color:var(--c-accent); }
-  .wwd-footer .muted { color:rgba(244,243,240,0.6); font-size:13px; }
 </style>
 </head>
 <body>
@@ -209,10 +204,33 @@
   </div>
 </section>
 
-<footer class="wwd-footer">
-  <div class="fi">
-    <span class="muted">&copy; 2026 Designs &amp; Words AI — Jaipur, India</span>
-    <span class="muted"><a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="mailto:designs.words@gmail.com">designs.words@gmail.com</a> &nbsp;&middot;&nbsp; <a href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener">@designs.words.ai</a></span>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <span class="foot-logo">Designs &amp; Words<span style="color:var(--c-accent)">.</span></span>
+      <p>A creative studio blending AI and human craft — branding, AI video, social, media buying, print and design, all under one roof.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Explore</h4>
+      <a href="index.html">Home</a>
+      <a href="what-we-do.html">What We Do</a>
+      <a href="ai-video-creation.html">AI Video Creation</a>
+    </div>
+    <div class="foot-col">
+      <h4>Connect</h4>
+      <a href="mailto:designs.words@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        designs.words@gmail.com
+      </a>
+      <a href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        @designs.words.ai
+      </a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; 2026 Designs &amp; Words AI &middot; Jaipur, India. All rights reserved.</span>
+    <span>AI-accelerated &middot; human-crafted</span>
   </div>
 </footer>
 
