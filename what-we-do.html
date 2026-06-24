@@ -91,6 +91,12 @@
   @media (max-width:900px){ .svc-body { grid-template-columns:1fr; } }
   @media (prefers-reduced-motion: reduce){
     .svc-head, .svc-title, .svc-left, .svc-list li, .rev { opacity:1 !important; transform:none !important; filter:none !important; } }
+
+  .wwd-footer { background:#0f0f0f; color:var(--c-chalk); padding:48px clamp(24px,5vw,80px) 34px; }
+  .wwd-footer .fi { max-width:1180px; margin:0 auto; display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; align-items:center; }
+  .wwd-footer a { color:var(--c-chalk); transition:color .3s ease; }
+  .wwd-footer a:hover { color:var(--c-accent); }
+  .wwd-footer .muted { color:rgba(244,243,240,0.6); font-size:13px; }
 </style>
 </head>
 <body>
@@ -202,6 +208,13 @@
     </ul>
   </div>
 </section>
+
+<footer class="wwd-footer">
+  <div class="fi">
+    <span class="muted">&copy; 2026 Designs &amp; Words AI — Jaipur, India</span>
+    <span class="muted"><a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="mailto:designs.words@gmail.com">designs.words@gmail.com</a> &nbsp;&middot;&nbsp; <a href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener">@designs.words.ai</a></span>
+  </div>
+</footer>
 
 <script>
   // reveal sections on scroll

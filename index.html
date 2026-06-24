@@ -215,6 +215,51 @@
   .rev.in { opacity:1; transform:none; filter:blur(0); }
   @media (max-width:900px){ .svc-body { grid-template-columns:1fr; } .svc-left { position:static; } }
 
+  /* ===== Instagram feed section ===== */
+  .ig { position:relative; z-index:1; background:var(--c-ink); color:var(--c-chalk);
+    border-top:1px solid #ececec; padding:clamp(64px,9vh,120px) clamp(24px,5vw,80px); }
+  .ig-inner { max-width:1280px; margin:0 auto; }
+  .ig-head { display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:clamp(32px,5vw,52px); }
+  .ig-avatar { width:64px; height:64px; border-radius:50%; object-fit:cover; background:#fff;
+    border:2px solid var(--c-accent); flex:none; }
+  .ig-head .ig-id { margin-right:auto; }
+  .ig-eyebrow { color:var(--c-accent); display:block; margin-bottom:6px; }
+  .ig-handle { margin:0; }
+  .ig-sub { color:var(--c-muted); margin-top:6px; }
+  .ig-follow { display:inline-flex; align-items:center; gap:9px; background:var(--c-accent); color:#fff;
+    font-weight:var(--fw-semibold); font-size:14px; letter-spacing:0.02em; padding:13px 24px;
+    border-radius:99px; transition:transform .35s cubic-bezier(.16,1,.3,1), background .3s ease; }
+  .ig-follow:hover { transform:translateY(-2px); background:var(--c-accent-dark); }
+  .ig-follow svg { width:17px; height:17px; }
+  .ig-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:clamp(8px,1vw,14px); }
+  @media (max-width:900px){ .ig-grid { grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:520px){ .ig-grid { grid-template-columns:repeat(2,1fr); } }
+  .ig-tile { position:relative; aspect-ratio:1/1; overflow:hidden; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(120% 120% at 30% 20%, #242424, #0f0f0f 72%); border:1px solid rgba(255,255,255,0.06);
+    color:rgba(255,255,255,0.32); transition:color .4s ease, border-color .4s ease, transform .5s cubic-bezier(.16,1,.3,1); }
+  .ig-tile::after { content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(closest-side at 70% 30%, rgba(237,43,46,0.16), transparent 70%); }
+  .ig-tile svg { width:26px; height:26px; position:relative; z-index:1; }
+  .ig-tile:hover { color:var(--c-accent); border-color:rgba(237,43,46,0.45); transform:translateY(-3px); }
+  .ig-note { color:var(--c-muted); font-size:12px; margin-top:18px; text-align:center; }
+  .ig-note a { color:var(--c-accent); }
+
+  /* ===== Footer ===== */
+  .site-footer { position:relative; z-index:50; background:#0f0f0f; color:var(--c-chalk);
+    border-top:1px solid rgba(255,255,255,0.08); padding:clamp(48px,6vh,72px) clamp(24px,5vw,80px) 36px; }
+  .foot-inner { max-width:1280px; margin:0 auto; display:flex; flex-wrap:wrap; gap:32px;
+    justify-content:space-between; align-items:flex-start; }
+  .foot-brand { max-width:340px; }
+  .foot-brand .foot-logo { font-family:var(--font-display); font-weight:var(--fw-bold); letter-spacing:-0.01em; font-size:1.25rem; }
+  .foot-brand p { color:var(--c-muted); margin-top:10px; font-size:14px; line-height:1.6; }
+  .foot-col h4 { font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--c-muted); margin-bottom:14px; font-weight:var(--fw-semibold); }
+  .foot-col a { display:flex; align-items:center; gap:9px; color:var(--c-chalk); font-size:14px; margin-bottom:11px;
+    transition:color .3s ease; }
+  .foot-col a:hover { color:var(--c-accent); }
+  .foot-col a svg { width:16px; height:16px; flex:none; }
+  .foot-bottom { max-width:1280px; margin:40px auto 0; padding-top:22px; border-top:1px solid rgba(255,255,255,0.07);
+    display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; color:var(--c-muted); font-size:12.5px; }
+
   @media (prefers-reduced-motion: reduce){ #hint{ display:none; }
     .rev { opacity:1 !important; transform:none !important; filter:none !important; }
     #page .wm > span, #page .reveal-up, #page .lr, .ho { transform:none !important; opacity:1 !important; filter:none !important; } }
@@ -377,7 +422,80 @@
       </ul>
     </div>
   </section>
+
+  <!-- ===== Instagram ===== -->
+  <section class="ig" id="instagram">
+    <div class="ig-inner">
+      <div class="ig-head">
+        <img class="ig-avatar" src="images/ig-avatar.webp" alt="Designs & Words" width="64" height="64" loading="lazy" />
+        <div class="ig-id">
+          <span class="t-eyebrow ig-eyebrow">On Instagram</span>
+          <h2 class="t-h1 ig-handle">@designs.words.ai</h2>
+          <p class="t-small ig-sub">Our latest work, reels and behind-the-scenes.</p>
+        </div>
+        <a class="ig-follow" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+          Follow
+        </a>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           LIVE INSTAGRAM FEED — to show your real posts automatically:
+           1. Go to https://behold.so  (free) and sign up
+           2. Connect the @designs.words.ai account, create a feed
+           3. Copy the embed snippet Behold gives you
+           4. Replace EVERYTHING between <div class="ig-grid" id="ig-feed"> and
+              its closing </div> with that snippet.
+           Until connected, the branded tiles below link to the profile.
+           ════════════════════════════════════════════════════════════════ -->
+      <div class="ig-grid" id="ig-feed">
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+      </div>
+      <p class="ig-note">12 posts &middot; <a href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener">View all on Instagram &rarr;</a></p>
+    </div>
+  </section>
 </main>
+
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <span class="foot-logo">Designs &amp; Words<span style="color:var(--c-accent)">.</span></span>
+      <p>A creative studio blending AI and human craft — branding, AI video, social, media buying, print and design, all under one roof.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Explore</h4>
+      <a href="what-we-do.html">What We Do</a>
+      <a href="ai-video-creation.html">AI Video Creation</a>
+      <a href="#instagram">Instagram</a>
+    </div>
+    <div class="foot-col">
+      <h4>Connect</h4>
+      <a href="mailto:designs.words@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        designs.words@gmail.com
+      </a>
+      <a href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        @designs.words.ai
+      </a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; 2026 Designs &amp; Words AI. All rights reserved.</span>
+    <span>AI-accelerated &middot; human-crafted</span>
+  </div>
+</footer>
 
 <script>
 (function () {
