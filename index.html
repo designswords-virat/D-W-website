@@ -219,7 +219,7 @@
   .ig { position:relative; z-index:1; background:var(--c-ink); color:var(--c-chalk);
     border-top:1px solid #ececec; padding:clamp(64px,9vh,120px) clamp(24px,5vw,80px); }
   .ig-inner { max-width:1280px; margin:0 auto; }
-  .ig-head { display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:clamp(32px,5vw,52px); }
+  .ig-head { display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:0; }
   .ig-avatar { width:64px; height:64px; border-radius:50%; object-fit:cover; background:#fff;
     border:2px solid var(--c-accent); flex:none; }
   .ig-head .ig-id { margin-right:auto; }
@@ -231,18 +231,6 @@
     border-radius:99px; transition:transform .35s cubic-bezier(.16,1,.3,1), background .3s ease; }
   .ig-follow:hover { transform:translateY(-2px); background:var(--c-accent-dark); }
   .ig-follow svg { width:17px; height:17px; }
-  .ig-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:clamp(8px,1vw,14px); }
-  @media (max-width:900px){ .ig-grid { grid-template-columns:repeat(3,1fr); } }
-  @media (max-width:520px){ .ig-grid { grid-template-columns:repeat(2,1fr); } }
-  .ig-tile { position:relative; aspect-ratio:1/1; overflow:hidden; display:flex; align-items:center; justify-content:center;
-    background:radial-gradient(120% 120% at 30% 20%, #242424, #0f0f0f 72%); border:1px solid rgba(255,255,255,0.06);
-    color:rgba(255,255,255,0.32); transition:color .4s ease, border-color .4s ease, transform .5s cubic-bezier(.16,1,.3,1); }
-  .ig-tile::after { content:""; position:absolute; inset:0; pointer-events:none;
-    background:radial-gradient(closest-side at 70% 30%, rgba(237,43,46,0.16), transparent 70%); }
-  .ig-tile svg { width:26px; height:26px; position:relative; z-index:1; }
-  .ig-tile:hover { color:var(--c-accent); border-color:rgba(237,43,46,0.45); transform:translateY(-3px); }
-  .ig-note { color:var(--c-muted); font-size:12px; margin-top:18px; text-align:center; }
-  .ig-note a { color:var(--c-accent); }
 
   /* ===== Footer ===== */
   .site-footer { position:relative; z-index:50; background:#0f0f0f; color:var(--c-chalk);
@@ -438,31 +426,6 @@
           Follow
         </a>
       </div>
-
-      <!-- ════════════════════════════════════════════════════════════════
-           LIVE INSTAGRAM FEED — to show your real posts automatically:
-           1. Go to https://behold.so  (free) and sign up
-           2. Connect the @designs.words.ai account, create a feed
-           3. Copy the embed snippet Behold gives you
-           4. Replace EVERYTHING between <div class="ig-grid" id="ig-feed"> and
-              its closing </div> with that snippet.
-           Until connected, the branded tiles below link to the profile.
-           ════════════════════════════════════════════════════════════════ -->
-      <div class="ig-grid" id="ig-feed">
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a class="ig-tile" href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener" aria-label="Designs & Words on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-      </div>
-      <p class="ig-note">12 posts &middot; <a href="https://www.instagram.com/designs.words.ai/" target="_blank" rel="noopener">View all on Instagram &rarr;</a></p>
     </div>
   </section>
 </main>
