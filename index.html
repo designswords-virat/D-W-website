@@ -4,7 +4,23 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <meta name="theme-color" content="#0A0A0A" />
-<title>D&W — Silk Grains</title>
+<meta name="description" content="Designs & Words AI — a creative studio blending AI and human craft. Branding, AI video, social media, media buying, printing and creative design, all under one roof." />
+<title>Designs &amp; Words AI — Branding, AI Video & Creative Studio</title>
+<link rel="canonical" href="https://d-w-website-eight.vercel.app/" />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Designs & Words AI" />
+<meta property="og:title" content="Designs & Words AI — Branding, AI Video & Creative Studio" />
+<meta property="og:description" content="A creative studio blending AI and human craft. Branding, AI video, social media, media buying, printing and creative design — all under one roof." />
+<meta property="og:url" content="https://d-w-website-eight.vercel.app/" />
+<meta property="og:image" content="https://d-w-website-eight.vercel.app/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Designs & Words AI — Branding, AI Video & Creative Studio" />
+<meta name="twitter:description" content="A creative studio blending AI and human craft — all under one roof." />
+<meta name="twitter:image" content="https://d-w-website-eight.vercel.app/og-image.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -188,16 +204,16 @@
   .svc > * { width:100%; max-width:1280px; margin-left:auto; margin-right:auto; }
   .svc-head { display:flex; justify-content:space-between; align-items:center; }
   .svc-eyebrow { display:none; }
-  .svc-num { color:#cdcdcd; font-family:var(--font-display); font-weight:500; font-size:15px; letter-spacing:0.1em; }
-  .svc-title { margin:14px 0 42px; }
+  .svc-num { display:none; }
+  .svc-title { margin:0 0 14px; }
   .svc-body { display:grid; grid-template-columns:1.4fr 1fr; gap:clamp(28px,5vw,64px); align-items:start; }
   .svc-img { width:100%; aspect-ratio:16/10; position:relative; overflow:hidden;
     background:radial-gradient(120% 120% at 30% 20%, #3a3a3a, #111 70%); }
   .svc-img::after { content:""; position:absolute; inset:0;
     background:radial-gradient(closest-side at 60% 45%, rgba(237,43,46,0.28), transparent 70%); }
-  .svc-desc { color:#6b6b6b; margin:0; flex:1; align-self:center; }
-  .svc-left { align-self:start; display:flex; gap:20px; align-items:center; }
-  .svc-left .svc-img { width:66%; height:66vh; max-height:600px; aspect-ratio:auto; flex:none; }
+  .svc-desc { color:#6b6b6b; margin:0 0 40px; max-width:62ch; }
+  .svc-left { align-self:start; }
+  .svc-left .svc-img { width:100%; height:66vh; max-height:600px; aspect-ratio:auto; }
   .svc-list { list-style:none; display:flex; flex-direction:column; gap:16px; }
   .svc-list li { display:flex; gap:14px; cursor:pointer; align-items:flex-start; }
   .svc-plus { color:var(--c-accent); font-weight:700; line-height:1.5; width:14px; flex:none; text-align:center; transition:transform .3s ease; }
@@ -208,13 +224,14 @@
     transition:max-height .45s cubic-bezier(.16,1,.3,1), opacity .35s ease, margin-top .35s ease; }
   .svc-list li.open .svc-item-desc { max-height:220px; opacity:1; margin-top:4px; }
   /* text reveal on the section's children (section itself stays sticky) */
-  .svc-head, .svc-title, .svc-left, .svc-list li {
+  .svc-head, .svc-title, .svc-desc, .svc-left, .svc-list li {
     opacity:0; transform:translateY(30px); filter:blur(6px);
     transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), filter .9s ease; }
-  .svc.in .svc-head, .svc.in .svc-title, .svc.in .svc-left, .svc.in .svc-list li {
+  .svc.in .svc-head, .svc.in .svc-title, .svc.in .svc-desc, .svc.in .svc-left, .svc.in .svc-list li {
     opacity:1; transform:none; filter:blur(0); }
   .svc.in .svc-head  { transition-delay:.04s }
   .svc.in .svc-title { transition-delay:.12s }
+  .svc.in .svc-desc  { transition-delay:.16s }
   .svc.in .svc-left  { transition-delay:.20s }
   .svc.in .svc-list li:nth-child(1){ transition-delay:.26s }
   .svc.in .svc-list li:nth-child(2){ transition-delay:.32s }
@@ -268,7 +285,7 @@
 <main id="content">
   <div class="hero-wrap">
     <section class="hero-content">
-      <img class="hero-img" src="hero.jpg" alt="Human and AI, face to face" />
+      <picture><source srcset="hero.webp" type="image/webp" /><img class="hero-img" src="hero.jpg" alt="Human and AI, face to face" decoding="async" fetchpriority="high" /></picture>
       <div class="hero-overlay">
         <div class="t-eyebrow ho">Human × Machine</div>
         <h2 class="t-h1 ho">Where human creativity meets <span class="t-accent">AI</span>.</h2>
@@ -285,9 +302,10 @@
 
   <section class="svc">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Video</span><span class="svc-num">/01</span></div>
-    <h2 class="t-display svc-title">AI Video Creation</h2>
+    <h2 class="t-h1 svc-title">AI Video Creation</h2>
+    <p class="t-small svc-desc">Creating engaging videos powered by creativity and AI.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Creating engaging videos powered by creativity and AI.</p></div>
+      <div class="svc-left"><div class="svc-img"></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">AI Promotional Videos</span><span class="svc-item-desc">Attention-grabbing videos that showcase your business, products, and services for digital campaigns and brand awareness.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Product Showcase Videos</span><span class="svc-item-desc">Present product features and benefits with visually engaging videos designed to increase interest and conversions.</span></div></li>
@@ -302,9 +320,10 @@
 
   <section class="svc">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Social</span><span class="svc-num">/02</span></div>
-    <h2 class="t-display svc-title">Social Media Content</h2>
+    <h2 class="t-h1 svc-title">Social Media Content</h2>
+    <p class="t-small svc-desc">Content designed to increase reach and engagement.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Content designed to increase reach and engagement.</p></div>
+      <div class="svc-left"><div class="svc-img"></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Social Media Post Designs</span><span class="svc-item-desc">Creative visuals designed to reflect your brand identity and attract audience attention.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Reels &amp; Short-Form Content</span><span class="svc-item-desc">High-engagement content tailored for fast-moving social media platforms.</span></div></li>
@@ -319,9 +338,10 @@
 
   <section class="svc">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Brand</span><span class="svc-num">/03</span></div>
-    <h2 class="t-display svc-title">Branding &amp; Identity</h2>
+    <h2 class="t-h1 svc-title">Branding &amp; Identity</h2>
+    <p class="t-small svc-desc">Building a strong and memorable brand presence.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Building a strong and memorable brand presence.</p></div>
+      <div class="svc-left"><div class="svc-img"></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Logo Design</span><span class="svc-item-desc">Unique logo concepts that reflect your business values and identity.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Brand Identity Systems</span><span class="svc-item-desc">Developing colors, typography, visual styles, and brand elements.</span></div></li>
@@ -336,9 +356,10 @@
 
   <section class="svc">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Media</span><span class="svc-num">/04</span></div>
-    <h2 class="t-display svc-title">Media Buying</h2>
+    <h2 class="t-h1 svc-title">Media Buying</h2>
+    <p class="t-small svc-desc">Data-driven advertising to reach the right audience.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Data-driven advertising to reach the right audience.</p></div>
+      <div class="svc-left"><div class="svc-img"></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Meta Ads (Facebook &amp; Instagram)</span><span class="svc-item-desc">Targeted campaigns designed to generate leads and increase visibility.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Google Ads Campaigns</span><span class="svc-item-desc">Search, display, and video advertising to reach potential customers.</span></div></li>
@@ -353,9 +374,10 @@
 
   <section class="svc">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Print</span><span class="svc-num">/05</span></div>
-    <h2 class="t-display svc-title">Printing Solutions</h2>
+    <h2 class="t-h1 svc-title">Printing Solutions</h2>
+    <p class="t-small svc-desc">High-quality print solutions for online and offline marketing.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">High-quality print solutions for online and offline marketing.</p></div>
+      <div class="svc-left"><div class="svc-img"></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Brochures &amp; Flyers</span><span class="svc-item-desc">Marketing materials designed for promotion and information sharing.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Banners &amp; Signage</span><span class="svc-item-desc">Large-format printing solutions for events and business promotion.</span></div></li>
@@ -370,9 +392,10 @@
 
   <section class="svc">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Design</span><span class="svc-num">/06</span></div>
-    <h2 class="t-display svc-title">Creative Design Solutions</h2>
+    <h2 class="t-h1 svc-title">Creative Design Solutions</h2>
+    <p class="t-small svc-desc">Designs that strengthen your business image.</p>
     <div class="svc-body">
-      <div class="svc-left"><div class="svc-img"></div><p class="t-small svc-desc">Designs that strengthen your business image.</p></div>
+      <div class="svc-left"><div class="svc-img"></div></div>
       <ul class="svc-list">
         <li><span class="svc-plus">+</span><div><span class="svc-item">Marketing Creatives</span><span class="svc-item-desc">Designs for promotional campaigns and advertisements.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Website Graphics</span><span class="svc-item-desc">Creative visuals for websites and digital platforms.</span></div></li>
