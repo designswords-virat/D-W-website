@@ -96,3 +96,18 @@ body { font-family:var(--font-body); }
 .foot-col a svg { width:16px; height:16px; flex:none; }
 .foot-bottom { max-width:1280px; margin:40px auto 0; padding-top:22px; border-top:1px solid rgba(255,255,255,0.07);
   display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; color:var(--c-muted); font-size:12.5px; }
+
+/* ============================================================
+   SITE NAV — shared persistent nav: pencil logo on a red box.
+   Matches the homepage's docked-box nav. Used on every subpage.
+   ============================================================ */
+.dw-nav { position:fixed; top:0; left:0; right:0; height:72px; z-index:70; padding:0 clamp(16px,4vw,40px);
+  display:flex; align-items:center; justify-content:center;
+  background:var(--c-accent); border-bottom:1px solid transparent; }
+.dw-nav .dw-mark { position:relative; display:flex; align-items:center; justify-content:center; width:60px; height:60px; }
+.dw-nav .dw-mark .dw-box { position:absolute; left:50%; top:50%; width:56px; height:56px; transform:translate(-50%,-50%); background:#FFFFFF; }
+.dw-nav .dw-mark svg { position:relative; z-index:1; height:46px; width:auto; display:block; }
+.dw-nav .dw-home { position:absolute; left:clamp(16px,4vw,40px); top:50%; transform:translateY(-50%);
+  font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:11px; letter-spacing:0.16em;
+  text-transform:uppercase; color:#FFFFFF; text-decoration:none; opacity:0.85; transition:opacity .3s ease; }
+.dw-nav .dw-home:hover { opacity:1; }

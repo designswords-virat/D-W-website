@@ -55,17 +55,17 @@
   body.light .pane-light { opacity:1; pointer-events:auto; }
 
   /* hero image — first content section; zooms + fades as it scrolls into "What We Do" */
-  .hero-wrap { position:relative; height:320vh; }   /* extra scroll room for the zoom + forward travel */
+  .hero-wrap { position:relative; height:230vh; }   /* scroll room for the zoom + red/beam beat */
   .hero-content { position:sticky; top:0; height:100vh; overflow:hidden; background:#000; }
   .hero-content .hero-img { position:absolute; left:0; top:-15%; width:100%; height:130%;
     object-fit:cover; display:block; will-change:transform; transform-origin:center; }
-  .hero-content .hero-half { position:absolute; left:0; right:0; height:50.2%; z-index:3; background:var(--c-accent); opacity:0; pointer-events:none; will-change:transform,opacity; }
-  .hero-content .hero-half.top { top:0; }
-  .hero-content .hero-half.bottom { bottom:0; }
-  .hero-content .hero-wwd { position:absolute; inset:0; z-index:2; background:#0A0A0A; color:#fff; opacity:0;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:18px; padding:0 28px; }
-  .hero-content .hero-wwd .t-eyebrow { color:rgba(255,255,255,0.85); }
-  .hero-content .hero-wwd h2 { color:#fff; }
+  .hero-content .hero-half { position:absolute; left:0; right:0; top:0; height:100%; z-index:3; background:var(--c-accent); opacity:0; pointer-events:none; will-change:opacity; }
+  .hero-content .hero-half.bottom { display:none; }   /* single full-screen red now — no seam */
+  .hero-wwd { position:fixed; inset:0; background:transparent; opacity:0; pointer-events:none;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-end; text-align:center;
+    gap:12px; padding:0 28px clamp(48px,13vh,140px); }
+  .hero-wwd .t-eyebrow { color:var(--c-accent); }
+  .hero-wwd h2 { color:#0A0A0A; font-size:clamp(1.5rem,3.4vw,2.6rem); line-height:1.1; }
   .hero-overlay { position:absolute; inset:0; z-index:2; padding:clamp(28px,5vw,64px);
     display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start; gap:14px;
     text-align:left; color:#fff;
@@ -115,25 +115,42 @@
   #page.show .body { transition-delay:.82s }
 
   /* top nav bar — transparent (dark phase) -> white with dark logo (light phase) */
-  #navbar { position:fixed; top:0; left:0; right:0; height:72px; z-index:25;
+  #navbar { position:fixed; top:0; left:0; right:0; height:72px; z-index:70;   /* above the content (z-50) — visible on every screen */
     display:flex; align-items:center; justify-content:center; background:transparent;
     border-bottom:1px solid transparent; transition:background .6s ease, border-color .6s ease; }
-  #navlogo { height:46px; width:auto; opacity:0; transition:opacity .6s ease; }
+  #navlogo { position:relative; z-index:1; height:46px; width:auto; opacity:0; transition:opacity .6s ease; }  /* above the docked box */
   body.light #navbar { background:#FFFFFF; border-bottom-color:#ececec; }
   body.light #navlogo { opacity:1; }
   body.light #navline { opacity:0; }
+  body.reached #navbar { background:var(--c-accent); border-bottom-color:transparent; }  /* red ONLY once the box docks behind the logo */
 
-  /* bottom on/off SWITCH — auto-on in the light phase, also clickable */
-  #toggle { position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:31;
-    width:64px; height:30px; border-radius:99px; border:1px solid rgba(255,255,255,0.2);
-    background:rgba(20,20,20,0.55); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
-    padding:3px; display:flex; align-items:center; cursor:pointer;
-    opacity:0; pointer-events:none; transition:opacity .5s ease, background .35s ease, border-color .35s ease; }
-  #toggle.vis { opacity:1; pointer-events:auto; }
-  #toggle .knob { width:22px; height:22px; border-radius:50%; background:#F4F3F0;
-    transition:transform .4s cubic-bezier(.16,1,.3,1), background .35s ease; }
-  body.light #toggle { background:rgba(237,43,46,0.92); border-color:rgba(237,43,46,1); }
-  body.light #toggle .knob { transform:translateX(34px); background:#fff; }
+  /* loading bar: fills at the bottom, then travels up and DOCKS as a box behind the nav logo */
+  #loadbar { position:fixed; left:50%; bottom:30px;
+    width:calc(300px - 244px * var(--travel, 0) + var(--gw, 0px)); height:calc(34px + 22px * var(--travel, 0) + var(--gh, 0px));   /* 56px box, +--gw/--gh expand at the end */
+    transform:translateX(-50%) translateY(calc((94px - 100vh) * var(--travel, 0)));              /* bottom -> nav centre */
+    border-radius:0; background:rgba(255,255,255,0.16); overflow:hidden;
+    opacity:0; pointer-events:none; transition:opacity .5s ease, background .4s ease; will-change:transform,width,height; }
+  #loadbar .fill { display:block; width:100%; height:100%; border-radius:0; background:var(--c-accent);
+    transform:scaleX(0); transform-origin:left center; transition:background .4s ease; will-change:transform; }
+  body.reached #loadbar .fill { background:#FFFFFF; }          /* box turns white only once it reaches the logo */
+  body.light #loadbar { background:rgba(10,10,10,0.12); }
+
+  /* the logo box opens DOWN over the red screen: a straight box at the top, then a spotlight beam (shape set in JS) */
+  #svc-red { position:fixed; inset:0; opacity:0; pointer-events:none;
+    background:radial-gradient(78% 58% at 50% 0%, rgba(255,180,180,0.55), rgba(255,120,120,0) 62%), var(--c-accent); }   /* light glow spilling from the door */
+  #navbox-expand { position:fixed; top:72px; left:0; right:0; height:calc(100vh - 72px);
+    pointer-events:none; will-change:clip-path, filter;
+    background:radial-gradient(140% 110% at 50% 0%, #efefef 0%, #ffffff 10%, #fbfbfb 62%, #f1f1f1 100%);   /* door shadow + light falloff */
+    filter:drop-shadow(0 0 16px rgba(120,0,0,0.28));    /* soft shadow where the beam meets the red */
+    clip-path:polygon(50% 0, 50% 0, 50% 0); }
+
+  /* scroll line that draws from under the nav down to the loading bar — sits BEHIND the panel text */
+  #scrollline { position:absolute; left:50%; transform:translateX(-50%); width:2px;
+    top:calc((100% - 64px) * var(--ltop, 0)); height:calc((100% - 64px) * var(--lh, 0));
+    opacity:0; pointer-events:none; border-radius:2px;
+    background:linear-gradient(180deg, rgba(244,243,240,0) 0%, rgba(237,43,46,0.8) 22%, var(--c-accent) 100%);
+    transition:opacity .45s ease; will-change:top,height; }
+  @media (prefers-reduced-motion: reduce){ #scrollline, #loadbar { display:none; } }
 
   /* light-theme flip of the panel + grid */
   #page { transition:background-color .6s ease, color .6s ease, -webkit-backdrop-filter .6s ease, backdrop-filter .6s ease, border-color .6s ease; }
@@ -146,8 +163,9 @@
 
   /* ===== release: cinematic fades, content scrolls ===== */
   #cine { position:relative; z-index:40; pointer-events:none; }   /* above #content visually, but click-through */
-  .intro-spacer { height:500vh; }
+  .intro-spacer { height:600vh; }
   #content { position:relative; z-index:50; background:#FFFFFF; color:#0A0A0A; }  /* covers the cinematic — no fade */
+  .site-footer { position:relative; z-index:80; }   /* always above the animation overlays — same clean footer as the other pages */
 
   .intro-white { background:#fff; color:#0A0A0A; min-height:100vh; scroll-snap-align:start;
     display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
@@ -163,10 +181,11 @@
   .whatwedo p { color:rgba(255,255,255,0.92); max-width:620px; }
 
   /* image-1 editorial service layout */
-  .svc { position:sticky; top:0; min-height:100vh; background:#fff; color:#0A0A0A; border-top:1px solid #ececec;
-    scroll-snap-align:start;
-    display:flex; flex-direction:column; justify-content:center;
-    padding:clamp(40px,6vh,80px) clamp(24px,5vw,80px); }
+  .svc { position:relative; min-height:88vh; background:transparent; color:#0A0A0A;
+    display:flex; flex-direction:column; justify-content:flex-start;     /* card pinned at the gate via JS */
+    padding:clamp(104px,15vh,150px) clamp(24px,5vw,80px) 60px; }
+  /* card emerges from the gate — scrubbed to scroll in JS (transform-origin = the gate, top-centre) */
+  .svc-inner { transform-origin:50% 0; opacity:0; will-change:transform,opacity; }
   .svc > * { width:100%; max-width:1280px; margin-left:auto; margin-right:auto; }
   .svc-head { display:flex; justify-content:space-between; align-items:center; }
   .svc-eyebrow { display:none; }
@@ -193,23 +212,23 @@
     max-height:0; opacity:0; overflow:hidden; margin-top:0;
     transition:max-height .45s cubic-bezier(.16,1,.3,1), opacity .35s ease, margin-top .35s ease; }
   .svc-list li.open .svc-item-desc { max-height:220px; opacity:1; margin-top:4px; }
-  /* text reveal on the section's children (section itself stays sticky) */
-  .svc-head, .svc-title, .svc-desc, .svc-left, .svc-list li {
-    opacity:0; transform:translateY(30px); filter:blur(6px);
-    transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), filter .9s ease; }
-  .svc.in .svc-head, .svc.in .svc-title, .svc.in .svc-desc, .svc.in .svc-left, .svc.in .svc-list li {
-    opacity:1; transform:none; filter:blur(0); }
-  .svc.in .svc-head  { transition-delay:.04s }
-  .svc.in .svc-title { transition-delay:.12s }
-  .svc.in .svc-desc  { transition-delay:.16s }
-  .svc.in .svc-left  { transition-delay:.20s }
-  .svc.in .svc-list li:nth-child(1){ transition-delay:.26s }
-  .svc.in .svc-list li:nth-child(2){ transition-delay:.32s }
-  .svc.in .svc-list li:nth-child(3){ transition-delay:.38s }
-  .svc.in .svc-list li:nth-child(4){ transition-delay:.44s }
-  .svc.in .svc-list li:nth-child(5){ transition-delay:.50s }
-  .svc.in .svc-list li:nth-child(6){ transition-delay:.56s }
-  .svc.in .svc-list li:nth-child(7){ transition-delay:.62s }
+  /* (each service section now zooms in as a whole from the gate — see .svc above) */
+
+  /* ===== compact GLASSMORPHISM cards — main info only, square corners ===== */
+  .svc-inner { max-width:560px; width:100%; margin:0 auto;
+    background:rgba(18,18,22,0.46);                       /* dark frosted glass — text stays readable over beam OR red */
+    -webkit-backdrop-filter:blur(14px) saturate(1.2); backdrop-filter:blur(14px) saturate(1.2);
+    border:1px solid rgba(255,255,255,0.22); border-radius:0; overflow:hidden;
+    box-shadow:0 24px 55px rgba(0,0,0,0.30); display:flex; flex-direction:column; }
+  .svc-body { display:block; order:-1; }                 /* image on top */
+  .svc-left { display:block; }
+  .svc-left .svc-img { width:100%; height:auto; aspect-ratio:16/10; max-height:none; }
+  .svc-list { display:none; }                            /* drop the long sub-item list */
+  .svc-head { display:flex; align-items:center; padding:18px 22px 0; }
+  .svc-eyebrow { display:inline-block; color:#fff; font-size:11px; letter-spacing:0.18em; opacity:0.9; }
+  .svc-num { display:none; }
+  .svc-title { padding:0 22px; margin:9px 0 0; font-size:clamp(1.2rem,2.1vw,1.5rem); color:#fff; }
+  .svc-desc { padding:0 22px 22px; margin:8px 0 0; color:rgba(255,255,255,0.82); font-size:14px; line-height:1.55; max-width:none; }
   .rev { opacity:0; transform:translateY(42px); filter:blur(6px);
     transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1), filter 1s ease; }
   .rev.in { opacity:1; transform:none; filter:blur(0); }
@@ -282,6 +301,44 @@
   @media (prefers-reduced-motion: reduce){ #hint{ display:none; }
     .rev { opacity:1 !important; transform:none !important; filter:none !important; }
     #page .wm > span, #page .reveal-up, #page .lr, .ho { transform:none !important; opacity:1 !important; filter:none !important; } }
+
+  /* =====================================================================
+     MOBILE / TOUCH — drop the desktop scroll-cinematic entirely and render
+     a clean, fast, top-to-bottom page (no canvas, no beam, no pin/zoom).
+     ===================================================================== */
+  @media (max-width:768px){
+    body { height:auto; }
+    /* kill every piece of the scroll choreography */
+    #cine, .intro-spacer, #navline, #hint, #svc-red, #navbox-expand, .hero-wwd { display:none !important; }
+
+    /* persistent nav -> static docked red bar: white box + dark pencil */
+    #navbar { background:var(--c-accent) !important; border-bottom:1px solid rgba(0,0,0,0.06) !important; }
+    #loadbar { opacity:1 !important; left:50% !important; top:36px !important; bottom:auto !important;
+      width:50px !important; height:50px !important; transform:translate(-50%,-50%) !important;
+      background:#FFFFFF !important; border-radius:0 !important; }
+    #loadbar .fill { display:none !important; }
+    #navlogo { opacity:1 !important; height:42px !important; }
+
+    /* content starts below the fixed nav, normal flow */
+    #content { padding-top:0; }
+
+    /* hero: a normal block image with caption — no sticky, no zoom */
+    .hero-wrap { height:auto !important; }
+    .hero-content { position:relative !important; height:auto !important; min-height:76vh; }
+    .hero-content .hero-img { top:0 !important; height:100% !important; transform:none !important; }
+    .hero-content .hero-half { display:none !important; }
+    .hero-overlay { opacity:1 !important; padding:24px 22px 36px; }
+
+    /* service cards: solid stacked cards, always visible (no glass blur for perf) */
+    .svc { position:relative !important; min-height:0 !important; padding:0 16px !important; margin:0 0 20px !important; }
+    .svc:first-of-type { padding-top:26px !important; }
+    .svc-inner { opacity:1 !important; transform:none !important; max-width:none !important;
+      background:#141418 !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important;
+      border:1px solid rgba(255,255,255,0.10) !important; box-shadow:0 12px 26px rgba(0,0,0,0.14) !important; }
+
+    /* tighten the big section paddings for a phone */
+    .why, .proc, .ig-sec, .ig, .final-cta { padding-left:22px !important; padding-right:22px !important; }
+  }
 </style>
 </head>
 <body>
@@ -289,14 +346,8 @@
 <div id="stage"><canvas id="bg"></canvas><div id="grain"></div><canvas id="gr"></canvas></div>
 <div id="grid"></div>
 <div id="navline"></div>
-<div id="navbar">
-  <svg id="navlogo" viewBox="345 23 280 650" xmlns="http://www.w3.org/2000/svg" aria-label="Designs & Words">
-    <path fill="#0A0A0A" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/>
-    <path fill="#0A0A0A" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/>
-    <path fill="#ED2B2E" d="M441,566 L528,566 L484,660 Z"/>
-  </svg>
-</div>
 <div id="page">
+  <div id="scrollline" aria-hidden="true"></div>
   <div class="inner pane-dark">
     <h1 class="t-display heading">
       <span class="wm"><span>Designs</span></span> <span class="wm"><span>&amp;</span></span> <span class="wm"><span>Words</span></span> <span class="wm"><span class="t-accent">AI</span></span>
@@ -311,9 +362,17 @@
 </div>
 
 <div id="hint">SCROLL TO ASSEMBLE ↓</div>
-<button id="toggle" aria-label="Light mode" role="switch" aria-checked="false"><span class="knob"></span></button>
 </div><!-- /#cine -->
 
+<!-- persistent nav (stays above the content on every screen) -->
+<div id="navbar">
+  <div id="loadbar" aria-hidden="true"><span class="fill"></span></div>
+  <svg id="navlogo" viewBox="345 23 280 650" xmlns="http://www.w3.org/2000/svg" aria-label="Designs & Words">
+    <path fill="#0A0A0A" d="M357,49 Q357,35 371,35 L521,35 L612,127 L612,238 Q612,252 598,252 L371,252 Q357,252 357,238 Z"/>
+    <path fill="#0A0A0A" d="M357,291 L612,291 L612,390 L549,526 L484,392 L420,526 L357,390 Z"/>
+    <path fill="#ED2B2E" d="M441,566 L528,566 L484,660 Z"/>
+  </svg>
+</div>
 <div class="intro-spacer"></div>
 
 <main id="content">
@@ -325,16 +384,21 @@
         <h2 class="t-h1 ho">Where human creativity meets <span class="t-accent">AI</span>.</h2>
         <p class="t-small ho">AI-accelerated, human-crafted — the intelligence behind every brand we build.</p>
       </div>
-      <div class="hero-wwd">
-        <div class="t-eyebrow">What We Do</div>
-        <h2 class="t-display">Everything your brand<br>needs <span style="opacity:.7">— under one roof.</span></h2>
-      </div>
       <div class="hero-half top"></div>
       <div class="hero-half bottom"></div>
     </section>
   </div>
 
+  <!-- "this screen" (red backdrop + beam + What We Do) stays put; the service cards below scroll up OVER it -->
+  <div id="svc-red" aria-hidden="true"></div>
+  <div id="navbox-expand" aria-hidden="true"></div>
+  <div class="hero-wwd">
+    <div class="t-eyebrow">What We Do</div>
+    <h2 class="t-display">Everything your brand<br>needs <span style="opacity:.7">— under one roof.</span></h2>
+  </div>
+
   <section class="svc">
+    <div class="svc-inner">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Video</span><span class="svc-num">/01</span></div>
     <h2 class="t-h1 svc-title">AI Video Creation</h2>
     <p class="t-small svc-desc">Creating engaging videos powered by creativity and AI.</p>
@@ -350,9 +414,11 @@
         <li><span class="svc-plus">+</span><div><span class="svc-item">Video Editing &amp; Optimization</span><span class="svc-item-desc">Professional editing, transitions, subtitles, and optimization for different platforms.</span></div></li>
       </ul>
     </div>
+    </div>
   </section>
 
   <section class="svc">
+    <div class="svc-inner">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Social</span><span class="svc-num">/02</span></div>
     <h2 class="t-h1 svc-title">Social Media Content</h2>
     <p class="t-small svc-desc">Content designed to increase reach and engagement.</p>
@@ -368,9 +434,11 @@
         <li><span class="svc-plus">+</span><div><span class="svc-item">Platform-Specific Strategy</span><span class="svc-item-desc">Customized content approaches for Instagram, Facebook, LinkedIn, YouTube, and more.</span></div></li>
       </ul>
     </div>
+    </div>
   </section>
 
   <section class="svc">
+    <div class="svc-inner">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Brand</span><span class="svc-num">/03</span></div>
     <h2 class="t-h1 svc-title">Branding &amp; Identity</h2>
     <p class="t-small svc-desc">Building a strong and memorable brand presence.</p>
@@ -386,9 +454,11 @@
         <li><span class="svc-plus">+</span><div><span class="svc-item">Visual Communication Strategy</span><span class="svc-item-desc">Creating a consistent visual language across all platforms.</span></div></li>
       </ul>
     </div>
+    </div>
   </section>
 
   <section class="svc">
+    <div class="svc-inner">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Media</span><span class="svc-num">/04</span></div>
     <h2 class="t-h1 svc-title">Media Buying</h2>
     <p class="t-small svc-desc">Data-driven advertising to reach the right audience.</p>
@@ -404,9 +474,11 @@
         <li><span class="svc-plus">+</span><div><span class="svc-item">Ad Optimization &amp; Reporting</span><span class="svc-item-desc">Improve campaign efficiency with continuous adjustments and insights.</span></div></li>
       </ul>
     </div>
+    </div>
   </section>
 
   <section class="svc">
+    <div class="svc-inner">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Print</span><span class="svc-num">/05</span></div>
     <h2 class="t-h1 svc-title">Printing Solutions</h2>
     <p class="t-small svc-desc">High-quality print solutions for online and offline marketing.</p>
@@ -422,9 +494,11 @@
         <li><span class="svc-plus">+</span><div><span class="svc-item">Custom Print Requirements</span><span class="svc-item-desc">Printing solutions tailored to specific business needs.</span></div></li>
       </ul>
     </div>
+    </div>
   </section>
 
   <section class="svc">
+    <div class="svc-inner">
     <div class="svc-head"><span class="t-eyebrow svc-eyebrow">Design</span><span class="svc-num">/06</span></div>
     <h2 class="t-h1 svc-title">Creative Design Solutions</h2>
     <p class="t-small svc-desc">Designs that strengthen your business image.</p>
@@ -439,6 +513,7 @@
         <li><span class="svc-plus">+</span><div><span class="svc-item">Product Creatives</span><span class="svc-item-desc">Creative visuals that enhance product appeal.</span></div></li>
         <li><span class="svc-plus">+</span><div><span class="svc-item">Custom Design Requirements</span><span class="svc-item-desc">Personalized design solutions for unique business needs.</span></div></li>
       </ul>
+    </div>
     </div>
   </section>
 
@@ -534,7 +609,13 @@
 (function () {
   var canvas = document.getElementById('gr'), ctx = canvas.getContext('2d');
   var bg = document.getElementById('bg'), bgx = bg.getContext('2d');
-  var hint = document.getElementById('hint'), page = document.getElementById('page'), toggle = document.getElementById('toggle');
+  var hint = document.getElementById('hint'), page = document.getElementById('page');
+  var scrollline = document.getElementById('scrollline');
+  var loadbar = document.getElementById('loadbar'), loadfill = loadbar ? loadbar.querySelector('.fill') : null;
+  var navboxExpand = document.getElementById('navbox-expand');
+  var navbarEl = document.getElementById('navbar');
+  var svcRed = document.getElementById('svc-red');
+  var svcEls = document.querySelectorAll('.svc');   // service cards — zoomed from the gate per scroll
   var heroContent = document.querySelector('.hero-content'), heroImg = heroContent.querySelector('.hero-img');
   var heroWrap = document.querySelector('.hero-wrap'), redTop = document.querySelector('.hero-half.top'), redBot = document.querySelector('.hero-half.bottom'), heroWwd = document.querySelector('.hero-wwd'), heroOverlay = document.querySelector('.hero-overlay');
   var cine = document.getElementById('cine');
@@ -543,6 +624,7 @@
   var W, H, buckets = [], cx, cy, rx, ry, navS = 0.14, navCX = 40, navCY = 36, bgI = 1;
   var pT = 0, pS = 0, mx = -9999, my = -9999, panelShown = false, lightShown = false;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var MOBILE = matchMedia('(max-width: 768px)').matches;   // phone -> skip the whole scroll-cinematic (CSS renders a clean static page)
 
   // appearance buckets — logo colors only: white (body) + red (nib)
   var BODY = ['rgba(244,243,240,0.12)','rgba(244,243,240,0.24)','rgba(255,255,255,0.40)',
@@ -572,7 +654,8 @@
     var artH = 650, targetH = Math.min(H*0.62, W*1.25), s = targetH/artH, drawW = 280*s;
     var left = Math.round((W-drawW)/2), top = Math.round((H-targetH)/2 - H*0.045);
     // phase-2 nav target: shrink the logo to ~46px tall, parked top-CENTER
-    navS = 46 / targetH; navCX = W/2; navCY = 36;
+    // use clientWidth (excludes scrollbar) so it lines up with CSS left:50% elements
+    navS = 46 / targetH; navCX = (document.documentElement.clientWidth || W)/2; navCY = 36;
 
     var off = document.createElement('canvas'); off.width = W; off.height = H;
     var o = off.getContext('2d');
@@ -620,13 +703,12 @@
   }
 
   function readScroll() {
-    var intro = 5 * innerHeight;                          // cinematic plays over the intro spacer (500vh)
+    var intro = 6 * innerHeight;                          // cinematic plays over the intro spacer (600vh)
     pT = reduce ? 1 : Math.min(1, Math.max(0, scrollY / intro));
   }
 
   function setLight(on) {
     document.body.classList.toggle('light', on);
-    toggle.setAttribute('aria-checked', on ? 'true' : 'false');
   }
 
 
@@ -648,9 +730,9 @@
 
     // two phases: assemble (aP), then white page slides up + logo shrinks into nav (tP)
     var aP = Math.min(1, pS / 0.34);                      // phase 1: assemble logo
-    var tP = smooth(0.38, 0.56, pS);                      // phase 2: panel up + shrink to nav
-    var wP = smooth(0.62, 0.82, pS);                      // phase 3: flip to light (white)
-    var rP = smooth(0.88, 1.0, pS);                       // phase 4: fade cinematic -> reveal content (hero image)
+    var tP = smooth(0.36, 0.44, pS);                      // phase 2: panel up + shrink to nav
+    var wP = smooth(0.60, 0.68, pS);                      // phase 4: flip to white ("Transforming Ideas")
+    var rP = smooth(0.83, 1.0, pS);                       // hero reveal (kept in sync with the content wipe ~0.833)
     bgI = 1 - tP;                                          // red gradient fades out -> clean dark nav
     cine.style.display = pS > 0.999 ? 'none' : '';        // content covers it (opaque) — no cross-fade
     hint.style.opacity = Math.max(0, 1 - pS*5);
@@ -660,7 +742,25 @@
       panelShown = sp2;
       page.classList.toggle('show', sp2);
     }
-    toggle.classList.toggle('vis', sp2 && rP < 0.4);      // visible through the dark panel + white flip
+    // sequence: line draws first (after the panel parks), THEN the bar fills once the line reaches it
+    var lineP = smooth(0.44, 0.52, pS);                   // line grows down to the bar
+    var barP  = smooth(0.52, 0.60, pS);                   // bar fills ONLY after the line has reached it
+    var travelP = smooth(0.70, 0.82, pS);                 // AFTER the white flip: bar travels up to top-center, morphs into a box
+    var uiFade = sp2 ? Math.max(0, 1 - wP / 0.5) : 0;     // fade the LINE out as the white flip takes over (bar stays)
+
+    // scroll line draws down to the bar, then drains away from the TOP as the bar fills
+    if (scrollline) {
+      scrollline.style.setProperty('--ltop', barP.toFixed(4));               // top edge recedes downward as the bar fills
+      scrollline.style.setProperty('--lh', Math.max(0, lineP - barP).toFixed(4)); // visible length
+      scrollline.style.opacity = uiFade;
+    }
+    // loading bar fills, stays visible, then travels up and docks as a box behind the nav logo
+    if (loadbar) {
+      if (loadfill) loadfill.style.transform = 'scaleX(' + barP.toFixed(4) + ')';
+      loadbar.style.opacity = sp2 ? 1 : 0;
+      loadbar.style.setProperty('--travel', travelP.toFixed(4));
+      document.body.classList.toggle('reached', travelP > 0.92);  // nav goes red + box goes white ONLY once it reaches the logo
+    }
 
     // hero image: parallax-drifts while entering, then zooms while pinned
     if (heroWrap && heroContent && heroImg) {
@@ -669,19 +769,66 @@
       var entry = Math.min(1, Math.max(0, hr.top / innerHeight));               // 1 entering -> 0 pinned
       var pin = Math.min(1, Math.max(0, -wr.top / ((wr.height - innerHeight) || 1)));
       heroImg.style.transform = 'translateY(' + (entry * 90) + 'px) scale(' + (1 + pin * 0.6) + ')';
-      // red fills, then splits into two halves that slide apart (top up, bottom down)
-      var redFill = Math.min(1, Math.max(0, (pin - 0.55) / 0.2));
-      var split = Math.min(1, Math.max(0, (pin - 0.78) / 0.22));
-      if (heroOverlay) heroOverlay.style.opacity = 1 - Math.min(1, Math.max(0, (pin - 0.4) / 0.15));   // caption fades before the red
-      if (heroWwd) heroWwd.style.opacity = Math.min(1, Math.max(0, (pin - 0.72) / 0.06));               // stays hidden behind the curtains until the split
-      if (redTop) { redTop.style.opacity = redFill; redTop.style.transform = 'translateY(' + (-split*100) + '%)'; }
-      if (redBot) { redBot.style.opacity = redFill; redBot.style.transform = 'translateY(' + (split*100) + '%)'; }
+      // red screen simply fills in and stays (no split / no What-We-Do reveal)
+      var redFill = Math.min(1, Math.max(0, (pin - 0.40) / 0.15));
+      if (svcRed) svcRed.style.opacity = redFill;     // persistent red backdrop — the cards float over this
+      if (heroOverlay) heroOverlay.style.opacity = 1 - Math.min(1, Math.max(0, (pin - 0.26) / 0.14));   // caption fades before the red
+      if (redTop) { redTop.style.opacity = redFill; redTop.style.transform = 'none'; }
+      if (redBot) { redBot.style.opacity = redFill; redBot.style.transform = 'none'; }
+      // the logo's box extends down ONLY once the red screen is reached, then recedes as the hero ends
+      if (navboxExpand) {
+        var expand = smooth(0.46, 0.62, pin);   // opens and STAYS — the white gate/beam structure is kept
+        // growth happens GRADUALLY as you scroll through the cards region (not in one hero scroll)
+        var grow = 0;
+        if (svcEls.length) {
+          var gTop = svcEls[0].getBoundingClientRect().top;
+          var gH = svcEls[svcEls.length - 1].getBoundingClientRect().bottom - gTop;
+          grow = Math.min(1, Math.max(0, -gTop / Math.max(1, gH - innerHeight)));
+        }
+        var fillT = Math.min(1, Math.max(0, (grow - 0.85) / 0.15));      // at the END: beam + gate box expand FULLY
+        var fe = fillT * fillT * (3 - 2 * fillT);
+        var lastB = svcEls.length ? svcEls[svcEls.length - 1].getBoundingClientRect().bottom : innerHeight;
+        var beamGone = Math.min(1, Math.max(0, (innerHeight * 0.5 - lastB) / (innerHeight * 0.5)));   // fades the beam away once you scroll PAST the cards
+        var vw = document.documentElement.clientWidth;                   // excludes scrollbar — matches CSS left:50%
+        if (loadbar) {
+          loadbar.style.setProperty('--gw', ((grow * 44) + fe * ((vw - 56) - grow * 44)).toFixed(1) + 'px');  // widen, then fill the nav
+          loadbar.style.setProperty('--gh', (fe * 22).toFixed(1) + 'px');                                     // grow to cover the nav height
+        }
+        if (navbarEl) {                          // at the fill the red nav fades to white, leaving a THIN red line
+          if (fe > 0.01 && beamGone < 0.5) {
+            navbarEl.style.backgroundColor = 'rgb(' + Math.round(237 + fe * 18) + ',' + Math.round(43 + fe * 212) + ',' + Math.round(46 + fe * 209) + ')';
+            navbarEl.style.borderBottom = (1 + fe * 2).toFixed(1) + 'px solid var(--c-accent)';
+          } else { navbarEl.style.backgroundColor = ''; navbarEl.style.borderBottom = ''; }
+        }
+        var cx = vw / 2, apex = 28 + grow * 22, fullH = innerHeight - 72; // stem half-width grows with scroll (56px -> 100px)
+        apex = apex + fe * (vw / 2 - apex);                               // box widens to FULL on the fill
+        var revealH = expand * fullH;                                     // how far down it has opened
+        var boxMaxH = fullH * (0.16 + grow * 0.50) + fe * (fullH * (1 - (0.16 + grow * 0.50)));   // box height to FULL
+        var beamMaxHalf = vw * (0.32 + grow * 0.18) + fe * (vw / 2 - vw * (0.32 + grow * 0.18));  // triangle to FULL width
+        var boxH = Math.min(boxMaxH, revealH), beamHalf = apex;
+        if (revealH > boxMaxH) beamHalf = apex + ((revealH - boxMaxH) / (fullH - boxMaxH)) * (beamMaxHalf - apex);
+        navboxExpand.style.clipPath =
+          'polygon(' + (cx - apex) + 'px 0px,' + (cx + apex) + 'px 0px,' +
+          (cx + apex) + 'px ' + boxH + 'px,' + (cx + beamHalf) + 'px ' + revealH + 'px,' +
+          (cx - beamHalf) + 'px ' + revealH + 'px,' + (cx - apex) + 'px ' + boxH + 'px)';
+        var hideOverlay = beamGone >= 0.999;                                             // fully past the cards -> the overlays must not exist near the footer
+        navboxExpand.style.opacity = (1 - beamGone).toFixed(3);                          // beam disappears past the cards
+        navboxExpand.style.display = hideOverlay ? 'none' : 'block';
+        if (svcRed) { svcRed.style.opacity = (redFill * (1 - beamGone)).toFixed(3); svcRed.style.display = hideOverlay ? 'none' : 'block'; }
+      }
+      // "What We Do" text reveals inside the beam once it's open, then leaves with it
+      if (heroWwd) {                              // text appears, then zooms IN toward the bottom and disappears
+        var wIn = smooth(0.62, 0.74, pin), wOut = smooth(0.80, 0.95, pin);
+        heroWwd.style.opacity = Math.max(0, wIn - wOut).toFixed(3);
+        heroWwd.style.transform = 'translateY(' + (wOut * 22) + 'vh) scale(' + (0.92 + wIn * 0.08 + wOut * 0.9).toFixed(3) + ')';
+      }
     }
     var wantLight = wP > 0.5;                              // toggle auto-on -> white flip (nav white + dark logo)
     if (wantLight !== lightShown) { lightShown = wantLight; setLight(wantLight); }
     var nsT = 1 + (navS - 1)*tP;                           // logo scale as it parks in the nav
     var ncx = cx + (navCX - cx)*tP, ncy = cy + (navCY - cy)*tP;
 
+    if (pS < 0.999) {   // skip the entire cinematic canvas once it's hidden (after the intro) — big scroll-perf win
     // animated red gradient behind the grains
     drawBg(T);
 
@@ -733,14 +880,39 @@
       }
       ctx.fill();
     }
+    }   // end cinematic-canvas block
+
+    // service cards: each is PINNED at the gate (top-centre); it grows OUT of the gate, holds,
+    // then zooms IN toward the bottom and disappears — same lifecycle as the "What We Do" title
+    var Hc = innerHeight;
+    for (var si = 0; si < svcEls.length; si++) {
+      var card = svcEls[si].firstElementChild;            // .svc-inner
+      if (!card) continue;
+      var ctop = svcEls[si].getBoundingClientRect().top;  // section top vs viewport (0 = at the gate)
+      var pIn  = 1 - Math.min(1, Math.max(0,  ctop / (Hc * 0.62)));   // 0 (below) -> 1 (at the gate)
+      var pOut =     Math.min(1, Math.max(0, -ctop / (Hc * 0.62)));   // 0 (at the gate) -> 1 (scrolled past)
+      var eIn  = pIn  * pIn  * (3 - 2 * pIn);
+      var eOut = pOut * pOut * (3 - 2 * pOut);
+      // stay FULLY OPAQUE through the zoom — only a tiny fade at the very start (a speck) and very end (leaving)
+      var op = Math.min(1, pIn / 0.10) * (1 - Math.min(1, Math.max(0, (pOut - 0.82) / 0.18)));
+      card.style.opacity = op.toFixed(3);
+      if (op <= 0.001) {                                    // fully out of view: drop the huge translate so it can't inflate the page height
+        card.style.transform = 'none';
+      } else {
+        card.style.transform = 'translateY(' + (-ctop + eOut * Hc * 0.30) + 'px) scale(' +
+          ((0.05 + eIn * 0.95) + eOut * 0.9).toFixed(4) + ')';   // grow from gate, then zoom toward the bottom
+      }
+    }
+
     requestAnimationFrame(frame);
   }
 
-  addEventListener('resize', function () { build(); readScroll(); });
-  addEventListener('scroll', readScroll, { passive: true });
-  addEventListener('pointermove', function (e) { mx = e.clientX; my = e.clientY; });
-  addEventListener('pointerleave', function () { mx = my = -9999; });
-  toggle.addEventListener('click', function () { lightShown = !lightShown; setLight(lightShown); });
+  if (!MOBILE) {
+    addEventListener('resize', function () { build(); readScroll(); });
+    addEventListener('scroll', readScroll, { passive: true });
+    addEventListener('pointermove', function (e) { mx = e.clientX; my = e.clientY; });
+    addEventListener('pointerleave', function () { mx = my = -9999; });
+  }
   // reveal content sections on scroll
   var rio = new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
@@ -763,7 +935,7 @@
       if (el) { el.style.cursor = 'pointer'; el.addEventListener('click', go); }
     });
   })();
-  build(); readScroll(); requestAnimationFrame(frame);
+  if (!MOBILE) { build(); readScroll(); requestAnimationFrame(frame); }   // phone: no canvas / no scroll-scrub — CSS renders the static page
 
   // ---- smooth (inertia) scrolling on desktop; lerps the real scroll position ----
   (function () {
@@ -777,9 +949,10 @@
       window.scrollTo(0, current);
       if (running) requestAnimationFrame(loop);
     }
+    var SPEED = 0.55;   // < 1 slows the scroll (each wheel notch travels less)
     addEventListener('wheel', function (e) {
       e.preventDefault();
-      var d = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+      var d = (e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY) * SPEED;
       target = Math.min(maxS(), Math.max(0, target + d));
       if (!running) { running = true; requestAnimationFrame(loop); }
     }, { passive: false });
